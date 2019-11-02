@@ -1,0 +1,26 @@
+﻿Basics,
+Name,Pyrana Prime
+Type,Pistol
+,
+Critical Properties,
+Critical Chance,24
+Critical Multiplier,2.2
+,
+Ammo Consumption,
+Fire Rate,4
+Magazine Capacity,12
+Reload Speed,1.6
+,
+Status Properties,
+Status Chance,12
+,
+Physical Damage,
+Impact,19.2
+Puncture,19.2
+Slash,201.6
+,
+Extra Properties,
+Accuracy,6.1
+Falloff,18 - 36
+Noise,Alarming
+Trigger,Auto
