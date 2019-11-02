@@ -18,10 +18,23 @@ public class Menu {
       debug = true;
     }
 
-    Weapon testWep = new Weapon("../data/weapons/pistol/PyranaPrime.csv");
+    int n = 40;
+    int r = 8;
 
-    System.out.println("\nInstant: " + DPS_Calculator.calculateInstantDPS(testWep));
-    System.out.println("\nSustained: " + DPS_Calculator.calculateSustainedDPS(testWep));
+    int[] combo = Math_Utility.generateCombination(n, r);
+    double comboCount = 1;
+
+    while (combo[0] != ((n - r) + 1)) {
+      combo = Math_Utility.incrementCombination(n, r, combo);
+      comboCount++;
+    }
+
+    System.out.println("\n" + comboCount);
+    double check = Math_Utility.maxCombination((double)n, (double)r);
+
+    if (comboCount == check) {
+      System.out.println("\nTrue");
+    }
 
   }
 
