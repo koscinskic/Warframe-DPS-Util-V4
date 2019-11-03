@@ -1,0 +1,14 @@
+﻿Name,Tainted Clip,
+Type,Pistol,
+Polarity,Naramon,
+Effect1,Magazine Capacity,
+Effect2,Reload Speed,
+Ranks,6,
+,,
+Cost,Effect1,Effect2
+6,10%,-5%
+7,20%,-10%
+8,30%,-15%
+9,40%,-20%
+10,50%,-25%
+11,60%,-30%
