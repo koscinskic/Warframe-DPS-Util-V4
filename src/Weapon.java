@@ -32,6 +32,7 @@ public class Weapon {
 
     String entryLine;
     String entryContent;
+    String entryType;
 
     try {
       File weaponFile = new File(fileName);
@@ -44,8 +45,9 @@ public class Weapon {
 
       entryLine = weaponScanner.nextLine();
       entryContent = entryLine.substring(entryLine.indexOf(",") + 1, entryLine.length()).toUpperCase();
+      entryType = entryLine.substring(0, entryLine.indexOf(",")).toUpperCase();
 
-      switch (entryLine.substring(0, entryLine.indexOf(",")).toUpperCase()) {
+      switch (entryType) {
 
         case ("NAME"):
         this.setName(entryContent);
