@@ -1,0 +1,12 @@
+﻿Name,Scorch,
+Type,Pistol,
+Polarity,Madurai,
+Effect1,Heat,
+Effect2,Status Chance,
+Ranks,4,
+,,
+Cost,Effect1,Effect2
+4,15%,15%
+5,30%,30%
+6,45%,45%
+7,60%,60%

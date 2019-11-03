@@ -1,0 +1,18 @@
+﻿Name,Magnum Force
+Type,Pistol
+Polarity,Madurai
+Effect1,Damage
+Ranks,11
+,
+Cost,Effect
+4,15%
+5,30%
+6,45%
+7,60%
+8,75%
+9,90%
+10,105%
+11,120%
+12,135%
+13,150%
+14,165%

@@ -1,13 +1,13 @@
-﻿Name,Bore
+﻿Name,No Return
 Type,Pistol
 Polarity,Naramon
 Effect1,Puncture
 Ranks,6
 ,
 Cost,Effect
-6,20%
-7,40%
-8,60%
-9,80%
-10,100%
-11,120%
+2,10%
+3,20%
+4,30%
+5,40%
+6,50%
+7,60%

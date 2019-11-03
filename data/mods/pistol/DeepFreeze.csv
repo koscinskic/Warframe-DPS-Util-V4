@@ -1,7 +1,7 @@
 ﻿Name,Deep Freeze
 Type,Pistol
 Polarity,Vazarin
-Benefit,Cold
+Effect1,Cold
 Ranks,6
 ,
 Cost,Effect

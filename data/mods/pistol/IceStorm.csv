@@ -1,0 +1,12 @@
+﻿Name,Ice Storm,
+Type,Pistol,
+Polarity,Madurai,
+Effect1,Magazine Capacity,
+Effect2,Cold,
+Ranks,4,
+,,
+Cost,Effect1,Effect2
+6,10%,10%
+7,20%,20%
+8,30%,30%
+9,40%,40%

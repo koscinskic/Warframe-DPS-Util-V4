@@ -1,0 +1,12 @@
+﻿Name,Stunning Speed,
+Type,Pistol,
+Polarity,Naramon,
+Effect1,Reload Speed,
+Effect2,Status Chance,
+Ranks,4,
+,,
+Cost,Effect1,Effect2
+6,10%,2.50%
+7,20%,5%
+8,30%,7.50%
+9,40%,10%

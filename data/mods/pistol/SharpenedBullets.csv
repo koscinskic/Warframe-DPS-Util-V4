@@ -1,0 +1,14 @@
+﻿Name,Sharpened Bullets
+Type,Pistol
+Polarity,Madurai
+Effect1,Critical Multiplier
+Ranks,6
+Conditional,
+,
+Cost,Effect
+2,12.50%
+3,25%
+4,37.50%
+5,50%
+6,62.50%
+7,75%

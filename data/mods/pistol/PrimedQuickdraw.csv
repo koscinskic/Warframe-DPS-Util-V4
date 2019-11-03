@@ -1,0 +1,18 @@
+﻿Name,Primed Quickdraw
+Type,Pistol
+Polarity,Naramon
+Effect1,Reload Speed
+Ranks,11
+,
+Cost,Effect
+2,8%
+3,16%
+4,24%
+5,32%
+6,40%
+7,48%
+8,56%
+9,64%
+10,72%
+11,80%
+12,88%
