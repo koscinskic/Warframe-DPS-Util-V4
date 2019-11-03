@@ -1,8 +1,8 @@
 ﻿Name,Magnum Force
 Type,Pistol
 Polarity,Madurai
-Benefit,Damage
-Ranks,6
+Effect1,Damage
+Ranks,11
 ,
 Cost,Effect
 4,15%

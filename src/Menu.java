@@ -1,5 +1,5 @@
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Menu {
@@ -18,6 +18,8 @@ public class Menu {
       debug = true;
     }
 
+    /*
+
     int n = FileManager.retrieveMods("../data/mods/pistol").length;
     int r = 8;
 
@@ -34,6 +36,14 @@ public class Menu {
 
     if (comboCount == check) {
       System.out.println("\nTrue");
+    }
+
+    */
+
+    Mod[] modFolder = FileManager.retrieveMods("../data/mods/pistol");
+
+    for (Mod currentMod : modFolder) {
+      currentMod.printMod();
     }
 
   }

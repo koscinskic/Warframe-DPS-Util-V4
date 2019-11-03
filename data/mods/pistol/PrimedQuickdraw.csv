@@ -1,7 +1,7 @@
 ﻿Name,Primed Quickdraw
 Type,Pistol
 Polarity,Naramon
-Benefit,Reload Speed
+Effect1,Reload Speed
 Ranks,11
 ,
 Cost,Effect

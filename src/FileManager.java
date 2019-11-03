@@ -4,12 +4,22 @@ import java.util.Scanner;
 
 public class FileManager {
 
-  public static File[] retrieveMods(String folderName) {
+  public static Mod[] retrieveMods(String folderName) {
 
     File modFolder = new File(folderName);
     File[] mods = modFolder.listFiles();
 
-    return mods;
+    Mod[] modCollection = new Mod[mods.length];
+    int modCount = 0;
+
+    for (File modFile : mods) {
+
+      modCollection[modCount] = new Mod(modFile);
+      modCount++;
+      
+    }
+
+    return modCollection;
 
   }
 

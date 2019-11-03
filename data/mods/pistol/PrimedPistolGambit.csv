@@ -1,7 +1,7 @@
 ﻿Name,Primed Pistol Gambit
 Type,Pistol
 Polarity,Madurai
-Benefit,Critical Chance
+Effect1,Critical Chance
 Ranks,11
 ,
 Cost,Effect

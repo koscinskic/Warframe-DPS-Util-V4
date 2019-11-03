@@ -7,11 +7,13 @@ public class Mod {
   private String name;
   private String type;
   private String polarity;
-  private String benefit;
+  private String effect1;
+  private String effect2;
 
   private int ranks;
+  private double[][] modValues;
 
-  private int[][] modValues;
+  private boolean conditional = false;
 
   public Mod() {
 
@@ -19,18 +21,18 @@ public class Mod {
 
   }
 
-  public Mod(String fileName) {
+  public Mod(File modFile) {
 
     Scanner modScanner = new Scanner(System.in);
 
-    String entryLine;
-    String entryContent;
+    String entry;
+    String[] entryLine;
+
     String entryType;
 
     int currentRank = 0;
 
     try {
-      File modFile = new File(fileName);
       modScanner = new Scanner(modFile);
     } catch (FileNotFoundException noFile) {
       //
@@ -38,46 +40,67 @@ public class Mod {
 
     while (modScanner.hasNext()) {
 
-      entryLine = modScanner.nextLine();
-      entryType = entryLine.substring(0, entryLine.indexOf(",")).toUpperCase();
+      entry = modScanner.nextLine().toUpperCase();
 
-      if (entryType.length() > 2) {
+      if (!entry.equals(",") && !entry.equals(",,")) {
 
-        entryContent = entryLine.substring(entryLine.indexOf(",") + 1, entryLine.length()).toUpperCase();
+        entryLine = entry.split(",");
 
-        switch (entryType) {
+        entryType = entryLine[0];
 
-          case ("NAME"):
-          this.setName(entryContent);
-          break;
+        if (entryType.contains("NAME")) {
 
-          case ("TYPE"):
-          this.setType(entryContent);
-          break;
+          this.setName(entryLine[1]);
 
-          case ("POLARITY"):
-          this.setPolarity(entryContent);
-          break;
+        } else if (entryType.length() > 2) {
 
-          case ("BENEFIT"):
-          this.setBenefit(entryContent);
-          break;
+          switch (entryType) {
 
-          case ("RANKS"):
-          this.setRanks(Integer.parseInt(entryContent));
-          modValues = new int[2][this.getRanks()];
-          break;
+            case ("TYPE"):
+            this.setType(entryLine[1]);
+            break;
+
+            case ("POLARITY"):
+            this.setPolarity(entryLine[1]);
+            break;
+
+            case ("EFFECT1"):
+            this.setEffect1(entryLine[1]);
+            break;
+
+            case ("EFFECT2"):
+            this.setEffect2(entryLine[1]);
+            break;
+
+            case ("RANKS"):
+            this.setRanks(Integer.parseInt(entryLine[1]));
+
+            if (this.getEffect2() != null) {
+              modValues = new double[3][this.getRanks()];
+            } else {
+              modValues = new double[2][this.getRanks()];
+            }
+
+            break;
+
+            case ("CONDITIONAL"):
+            conditional = true;
+            break;
+
+          }
+
+        } else {
+
+          modValues[0][currentRank] = Integer.parseInt(entryType);
+          modValues[1][currentRank] = Double.parseDouble(entryLine[1].substring(0, entryLine[1].indexOf("%")));
+
+          if (this.getEffect2() != null) {
+            modValues[2][currentRank] = Double.parseDouble(entryLine[2].substring(0, entryLine[2].indexOf("%")));
+          }
+
+          currentRank++;
 
         }
-
-      } else if (!entryLine.equals(",")) {
-
-        entryContent = entryLine.substring(entryLine.indexOf(",") + 1, entryLine.indexOf("%")).toUpperCase();
-
-        modValues[0][currentRank] = Integer.parseInt(entryType);
-        modValues[1][currentRank] = Integer.parseInt(entryContent);
-
-        currentRank++;
 
       }
 
@@ -87,11 +110,39 @@ public class Mod {
 
   public void printMod() {
 
+    System.out.print("\nMod: " + name);
+    System.out.print("\nType: " + type);
+    System.out.print("\nPolarity: " + polarity);
+    System.out.print("\nEffect: " + effect1);
+
+    if (effect2 != null) {
+      System.out.print("\nEffect: " + effect2);
+    }
+
+    System.out.print("\nRanks: " + ranks);
+
+    if (conditional == true) {
+      System.out.print("\nConditional");
+    }
+
+    System.out.println("\nCost & Effect:");
+
     int index = 0;
 
-    while (index < modValues[0].length) {
-      System.out.println(modValues[0][index] + " | " + modValues[1][index]);
-      index++;
+    if (effect2 != null) {
+
+      while (index < modValues[0].length) {
+        System.out.println(modValues[0][index] + " | " + modValues[1][index] + " | " + modValues[2][index]);
+        index++;
+      }
+
+    } else {
+
+      while (index < modValues[0].length) {
+        System.out.println(modValues[0][index] + " | " + modValues[1][index]);
+        index++;
+      }
+
     }
 
   }
@@ -108,8 +159,12 @@ public class Mod {
     polarity = p;
   }
 
-  public void setBenefit(String b) {
-    benefit = b;
+  public void setEffect1(String e1) {
+    effect1 = e1;
+  }
+
+  public void setEffect2(String e2) {
+    effect2 = e2;
   }
 
   public void setRanks(int r) {
@@ -128,15 +183,19 @@ public class Mod {
     return polarity;
   }
 
-  public String getBenefit() {
-    return benefit;
+  public String getEffect1() {
+    return effect1;
+  }
+
+  public String getEffect2() {
+    return effect2;
   }
 
   public int getRanks() {
     return ranks;
   }
 
-  public int[][] getModValues() {
+  public double[][] getModValues() {
     return modValues;
   }
 
