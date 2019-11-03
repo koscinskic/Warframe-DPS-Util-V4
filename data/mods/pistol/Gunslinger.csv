@@ -1,0 +1,13 @@
+﻿Name,Gunslinger
+Type,Pistol
+Polarity,Madurai
+Benefit,Fire  Rate
+Ranks,6
+,
+Cost,Effect
+4,12%
+5,24%
+6,36%
+7,48%
+8,60%
+9,72%

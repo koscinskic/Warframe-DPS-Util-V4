@@ -99,6 +99,12 @@ public class Weapon {
 
   }
 
+  public void modifyWeapon() {
+
+    //
+
+  }
+
   public void setName(String n) {
     name = n;
   }

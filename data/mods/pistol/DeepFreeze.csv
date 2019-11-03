@@ -1,0 +1,13 @@
+﻿Name,Deep Freeze
+Type,Pistol
+Polarity,Vazarin
+Benefit,Cold
+Ranks,6
+,
+Cost,Effect
+6,15%
+7,30%
+8,34%
+9,60%
+10,75%
+11,90%

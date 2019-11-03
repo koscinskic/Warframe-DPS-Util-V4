@@ -18,9 +18,7 @@ public class Menu {
       debug = true;
     }
 
-    /**
-
-    int n = 40;
+    int n = FileManager.retrieveMods("../data/mods/pistol").length;
     int r = 8;
 
     int[] combo = Math_Utility.generateCombination(n, r);
@@ -37,12 +35,6 @@ public class Menu {
     if (comboCount == check) {
       System.out.println("\nTrue");
     }
-
-    */
-
-    Mod testMod = new Mod("../data/mods/pistol/BarrelDiffusion.csv");
-
-    testMod.printMod();
 
   }
 

@@ -1,0 +1,13 @@
+﻿Name,Sure Shot
+Type,Pistol
+Polarity,Vazarin
+Benefit,Status Chance
+Ranks,6
+,
+Cost,Effect
+2,3%
+3,5%
+4,8%
+5,10%
+6,13%
+7,15%
