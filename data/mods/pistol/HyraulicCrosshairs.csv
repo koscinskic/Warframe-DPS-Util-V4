@@ -1,0 +1,20 @@
+﻿Name,Hyrdaulic Crosshairs
+Type,Pistol
+Polarity,Madurai
+Benefit,Critical Chance
+Ranks,6
+Conditional,
+,
+Cost,Effect
+2,22.5%
+3,45%
+4,67.5%
+5,90%
+6,112.5%
+7,135%
+,
+,
+,
+,
+,
+,

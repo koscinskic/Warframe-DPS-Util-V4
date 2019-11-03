@@ -1,8 +1,8 @@
-﻿Name,Slip Magazine
+﻿Name,Primed Slip Magazine
 Type,Pistol
 Polarity,Naramon
 Benefit,Magazine Capacity
-Ranks,6
+Ranks,11
 ,
 Cost,Effect
 4,5%
@@ -11,3 +11,8 @@ Cost,Effect
 7,20%
 8,25%
 9,30%
+10,35%
+11,40%
+12,45%
+13,50%
+14,55%

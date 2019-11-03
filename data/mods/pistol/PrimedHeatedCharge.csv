@@ -1,8 +1,8 @@
-﻿Name,Heated Charge
+﻿Name,Primed Heated Charge
 Type,Pistol
 Polarity,Naramon
 Benefit,Heat
-Ranks,6
+Ranks,11
 ,
 Cost,Effect
 6,15%
@@ -11,3 +11,8 @@ Cost,Effect
 9,60%
 10,75%
 11,90%
+12,105%
+13,120%
+14,135%
+15,150%
+16,165%

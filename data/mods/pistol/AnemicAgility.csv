@@ -1,0 +1,14 @@
+﻿Name,Anemic Agility,
+Type,Pistol,
+Polarity,Naramon,
+Effect1,Fire  Rate,
+Effect2,Damage,
+Ranks,6,
+,,
+Cost,Effect1,Effect2
+4,15%,-2.5%
+5,30%,-5%
+6,45%,-7.5%
+7,60%,-10%
+8,75%,-12.5%
+9,90%,-15%
