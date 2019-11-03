@@ -1,6 +1,8 @@
 ﻿Name,Barrel Diffusion
 Type,Pistol
 Polarity,Madurai
+Benefit,Multishot
+Ranks,6
 ,
 Cost,Effect
 6,20%

@@ -18,6 +18,8 @@ public class Menu {
       debug = true;
     }
 
+    /**
+
     int n = 40;
     int r = 8;
 
@@ -35,6 +37,12 @@ public class Menu {
     if (comboCount == check) {
       System.out.println("\nTrue");
     }
+
+    */
+
+    Mod testMod = new Mod("../data/mods/pistol/BarrelDiffusion.csv");
+
+    testMod.printMod();
 
   }
 
