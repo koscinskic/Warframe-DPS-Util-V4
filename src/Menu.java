@@ -18,9 +18,26 @@ public class Menu {
       debug = true;
     }
 
+    Mod[] modFolder = FileManager.retrieveMods("../data/mods/pistol");
+
+    Weapon testWeapon = new Weapon("../data/weapons/pistol/PyranaPrime.csv");
+
+    int[] tempCombo = {1, 2, 13, 15, 16, 17, 18, 35};
+    Mod[] modSet = new Mod[8];
+
+    int index = 0;
+
+    for (int i : tempCombo) {
+      modSet[index] = modFolder[i - 1];
+      index++;
+    }
+
+    testWeapon.modifyWeapon(modSet);
+
+    //
     /*
 
-    int n = FileManager.retrieveMods("../data/mods/pistol").length;
+    int n = modFolder.length;
     int r = 8;
 
     int[] combo = Math_Utility.generateCombination(n, r);
@@ -39,12 +56,17 @@ public class Menu {
     }
 
     */
+    //
 
-    Mod[] modFolder = FileManager.retrieveMods("../data/mods/pistol");
+    //
+    /*
 
     for (Mod currentMod : modFolder) {
       currentMod.printMod();
     }
+
+    */
+    //
 
   }
 

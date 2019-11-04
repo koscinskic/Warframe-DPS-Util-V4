@@ -99,9 +99,187 @@ public class Weapon {
 
   }
 
-  public void modifyWeapon() {
+  public void modifyWeapon(Mod[] modFolder) {
 
-    //
+    double criticalChanceMOD = 0;
+    double criticalMultiplierMOD = 0;
+    double fireRateMOD = 0;
+    double magazineCapacityMOD = 0;
+    double reloadSpeedMOD = 0;
+    double statusChanceMOD = 0;
+    double impactMOD = 0;
+    double punctureMOD = 0;
+    double slashMOD = 0;
+
+    double damageMOD = 0;
+    double multishotMOD = 0;
+
+    double heatMOD = 0;
+    double coldMOD = 0;
+    double electricityMOD = 0;
+    double toxinMOD = 0;
+
+    double effectValue;
+
+    for (Mod currentMod : modFolder) {
+
+      effectValue = currentMod.getModValues()[1][currentMod.getRanks() - 1];
+
+      switch (currentMod.getEffect1()) {
+
+        case ("CRITICAL CHANCE"):
+        criticalChanceMOD += effectValue;
+        break;
+
+        case ("CRITICAL MULTIPLIER"):
+        criticalMultiplierMOD += effectValue;
+        break;
+
+        case ("FIRE RATE"):
+        fireRateMOD += effectValue;
+        break;
+
+        case ("MAGAZINE CAPACITY"):
+        magazineCapacityMOD += effectValue;
+        break;
+
+        case ("RELOAD SPEED"):
+        reloadSpeedMOD += effectValue;
+        break;
+
+        case ("STATUS CHANCE"):
+        statusChanceMOD += effectValue;
+        break;
+
+        case ("IMPACT"):
+        impactMOD += effectValue;
+        break;
+
+        case ("PUNCTURE"):
+        punctureMOD += effectValue;
+        break;
+
+        case ("SLASH"):
+        slashMOD += effectValue;
+        break;
+
+        case ("DAMAGE"):
+        damageMOD += effectValue;
+        break;
+
+        case ("MULTISHOT"):
+        multishotMOD += effectValue;
+        break;
+
+        case ("HEAT"):
+        heatMOD += effectValue;
+        break;
+
+        case ("COLD"):
+        coldMOD += effectValue;
+        break;
+
+        case ("ELECTRICITY"):
+        electricityMOD += effectValue;
+        break;
+
+        case ("TOXIN"):
+        toxinMOD += effectValue;
+        break;
+
+      }
+
+      if (currentMod.getEffect2() != null) {
+
+        effectValue = currentMod.getModValues()[2][currentMod.getRanks() - 1];
+
+        switch (currentMod.getEffect2()) {
+
+          case ("CRITICAL CHANCE"):
+          criticalChanceMOD += effectValue;
+          break;
+
+          case ("CRITICAL MULTIPLIER"):
+          criticalMultiplierMOD += effectValue;
+          break;
+
+          case ("FIRE RATE"):
+          fireRateMOD += effectValue;
+          break;
+
+          case ("MAGAZINE CAPACITY"):
+          magazineCapacityMOD += effectValue;
+          break;
+
+          case ("RELOAD SPEED"):
+          reloadSpeedMOD += effectValue;
+          break;
+
+          case ("STATUS CHANCE"):
+          statusChanceMOD += effectValue;
+          break;
+
+          case ("IMPACT"):
+          impactMOD += effectValue;
+          break;
+
+          case ("PUNCTURE"):
+          punctureMOD += effectValue;
+          break;
+
+          case ("SLASH"):
+          slashMOD += effectValue;
+          break;
+
+          case ("DAMAGE"):
+          damageMOD += effectValue;
+          break;
+
+          case ("MULTISHOT"):
+          multishotMOD += effectValue;
+          break;
+
+          case ("HEAT"):
+          heatMOD += effectValue;
+          break;
+
+          case ("COLD"):
+          coldMOD += effectValue;
+          break;
+
+          case ("ELECTRICITY"):
+          electricityMOD += effectValue;
+          break;
+
+          case ("TOXIN"):
+          toxinMOD += effectValue;
+          break;
+
+        }
+
+      }
+
+    }
+
+    criticalChanceMOD /= 100;
+    criticalMultiplierMOD /= 100;
+    fireRateMOD /= 100;
+    magazineCapacityMOD /= 100;
+    reloadSpeedMOD /= 100;
+    statusChanceMOD /= 100;
+    impactMOD /= 100;
+    punctureMOD /= 100;
+    slashMOD /= 100;
+
+    damageMOD /= 100;
+    multishotMOD /= 100;
+
+    heatMOD /= 100;
+    coldMOD /= 100;
+    electricityMOD /= 100;
+    toxinMOD /= 100;
+
+    
 
   }
 
