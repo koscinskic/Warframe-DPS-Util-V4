@@ -1,0 +1,23 @@
+﻿Basics,
+Name,Acrid
+Type,Pistol
+,
+Critical Properties,
+Critical Chance,5
+Critical Multiplier,2
+,
+Ammo Consumption,
+Fire Rate,6.67
+Magazine Capacity,15
+Reload Speed,1.2
+,
+Status Properties,
+Status Chance,10
+,
+Physical Damage,
+Toxin,35
+,
+Extra Properties,
+Accuracy,100
+Noise,Alarming
+Trigger,Semi

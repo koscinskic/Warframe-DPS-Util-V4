@@ -1,0 +1,25 @@
+﻿Basics,
+Name,Vaykor Marelok
+Type,Pistol
+,
+Critical Properties,
+Critical Chance,20
+Critical Multiplier,1.5
+,
+Ammo Consumption,
+Fire Rate,2
+Magazine Capacity,10
+Reload Speed,1.7
+,
+Status Properties,
+Status Chance,35
+,
+Physical Damage,
+Impact,96
+Puncture,16
+Slash,48
+,
+Extra Properties,
+Accuracy,10
+Noise,Alarming
+Trigger,Semi
