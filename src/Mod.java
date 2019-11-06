@@ -1,53 +1,86 @@
+/**
+* @author Caden Koscinski
+*
+* This work is mine unless otherwise cited.
+*/
 
 import java.io.*;
 import java.util.Scanner;
 
+/**
+* The Mod class serves to interpret and hold the data contained within any
+* mod-oriented csv file.
+*/
+
 public class Mod {
 
+  // Variables concerning file organization
   private String name;
   private String type;
+
+  // TODO: Variable that is currently unused...will eventually be incorporated in
+  // order to determine the overall drain of a mod configuration.
   private String polarity;
+
+  // Variables serving to indicate the property that is altered by the mod.
+  // The majority of mods are governed either by a singular beneficial effect,
+  // a beneficial and detrimental effect, or two beneficial effects. In the
+  // case that a mod only has one effect, "effect2" will remain null.
   private String effect1;
   private String effect2;
 
+  // Variables serving to hold the various different states of each mod
   private int ranks;
   private double[][] modValues;
+  private int currentRank = 0;
 
+  // TODO: Variable that is only partially implemented...will eventually be
+  // incorporated in order to filter impractical or situational builds.
   private boolean conditional = false;
+
+  /**
+  * Empty Constructor
+  */
 
   public Mod() {
 
-    //
+    // No current usage
 
   }
 
+  /**
+  * Constructor designed to fully convert a csv into a mod object
+  */
+
   public Mod(File modFile) {
 
+    // Temporary Scanner
     Scanner modScanner = new Scanner(System.in);
 
+    // Variables concerning csv translation
     String entry;
     String[] entryLine;
-
     String entryType;
-
-    int currentRank = 0;
 
     try {
       modScanner = new Scanner(modFile);
     } catch (FileNotFoundException noFile) {
-      //
+      // Handle Exception Here
     }
 
     while (modScanner.hasNext()) {
 
       entry = modScanner.nextLine().toUpperCase();
 
+      // Prevents a null case where splitting a comma-only line returns an
+      // array with 0 dimensions
       if (!entry.equals(",") && !entry.equals(",,")) {
 
         entryLine = entry.split(",");
-
         entryType = entryLine[0];
 
+        // TODO: BOM removal is not currently implemented, thus the first line cannot
+        // be included as a switch case
         if (entryType.contains("NAME")) {
 
           this.setName(entryLine[1]);
@@ -76,9 +109,9 @@ public class Mod {
             this.setRanks(Integer.parseInt(entryLine[1]));
 
             if (this.getEffect2() != null) {
-              modValues = new double[3][this.getRanks()];
+              this.setModValues(new double[3][this.getRanks()]);
             } else {
-              modValues = new double[2][this.getRanks()];
+              this.setModValues(new double[2][this.getRanks()]);
             }
 
             break;
@@ -91,14 +124,17 @@ public class Mod {
 
         } else {
 
-          modValues[0][currentRank] = Integer.parseInt(entryType);
-          modValues[1][currentRank] = Double.parseDouble(entryLine[1].substring(0, entryLine[1].indexOf("%")));
+          // TODO: Format to adhere to S&G structure
+          modValues[0][this.getCurrentRank()] = Integer.parseInt(entryType);
+          modValues[1][this.getCurrentRank()] = Double.parseDouble(
+          entryLine[1].substring(0, entryLine[1].indexOf("%")));
 
           if (this.getEffect2() != null) {
-            modValues[2][currentRank] = Double.parseDouble(entryLine[2].substring(0, entryLine[2].indexOf("%")));
+            modValues[2][this.getCurrentRank()] = Double.parseDouble(
+            entryLine[2].substring(0, entryLine[2].indexOf("%")));
           }
 
-          currentRank++;
+          this.setCurrentRank(this.getCurrentRank() + 1);
 
         }
 
@@ -108,18 +144,25 @@ public class Mod {
 
   }
 
+  /**
+  * Method that displays the relevant information for the mod in the console
+  */
+
   public void printMod() {
 
-    System.out.print("\nMod: " + name);
-    System.out.print("\nType: " + type);
-    System.out.print("\nPolarity: " + polarity);
-    System.out.print("\nEffect: " + effect1);
+    // Variable for traversing the ModValues array
+    int index = 0;
+
+    System.out.print("\nMod: " + this.getName());
+    System.out.print("\nType: " + this.getType());
+    System.out.print("\nPolarity: " + this.getPolarity());
+    System.out.print("\nEffect: " + this.getEffect1());
 
     if (effect2 != null) {
-      System.out.print("\nEffect: " + effect2);
+      System.out.print("\nEffect: " + this.getEffect2());
     }
 
-    System.out.print("\nRanks: " + ranks);
+    System.out.print("\nRanks: " + this.getRanks());
 
     if (conditional == true) {
       System.out.print("\nConditional");
@@ -127,19 +170,19 @@ public class Mod {
 
     System.out.println("\nCost & Effect:");
 
-    int index = 0;
-
     if (effect2 != null) {
 
-      while (index < modValues[0].length) {
-        System.out.println(modValues[0][index] + " | " + modValues[1][index] + " | " + modValues[2][index]);
+      while (index < this.getModValues()[0].length) {
+        System.out.println(this.getModValues()[0][index] + " | " +
+        this.getModValues()[1][index] + " | " + this.getModValues()[2][index]);
         index++;
       }
 
     } else {
 
       while (index < modValues[0].length) {
-        System.out.println(modValues[0][index] + " | " + modValues[1][index]);
+        System.out.println(this.getModValues()[0][index] + " | " +
+        this.getModValues()[1][index]);
         index++;
       }
 
@@ -147,56 +190,40 @@ public class Mod {
 
   }
 
-  public void setName(String n) {
-    name = n;
-  }
+  /**
+  * Setters & Getters below
+  */
 
-  public void setType(String t) {
-    type = t;
-  }
+  public void setName(String n) {name = n;}
 
-  public void setPolarity(String p) {
-    polarity = p;
-  }
+  public void setType(String t) {type = t;}
 
-  public void setEffect1(String e1) {
-    effect1 = e1;
-  }
+  public void setPolarity(String p) {polarity = p;}
 
-  public void setEffect2(String e2) {
-    effect2 = e2;
-  }
+  public void setEffect1(String e1) {effect1 = e1;}
 
-  public void setRanks(int r) {
-    ranks = r;
-  }
+  public void setEffect2(String e2) {effect2 = e2;}
 
-  public String getName() {
-    return name;
-  }
+  public void setRanks(int r) {ranks = r;}
 
-  public String getType() {
-    return type;
-  }
+  public void setCurrentRank(int cr) {currentRank = cr;}
 
-  public String getPolarity() {
-    return polarity;
-  }
+  public void setModValues(double[][] mv) {modValues = mv;}
 
-  public String getEffect1() {
-    return effect1;
-  }
+  public String getName() {return name;}
 
-  public String getEffect2() {
-    return effect2;
-  }
+  public String getType() {return type;}
 
-  public int getRanks() {
-    return ranks;
-  }
+  public String getPolarity() {return polarity;}
 
-  public double[][] getModValues() {
-    return modValues;
-  }
+  public String getEffect1() {return effect1;}
+
+  public String getEffect2() {return effect2;}
+
+  public int getRanks() {return ranks;}
+
+  public int getCurrentRank() {return currentRank;}
+
+  public double[][] getModValues() {return modValues;}
 
 }
