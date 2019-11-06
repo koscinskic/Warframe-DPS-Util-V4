@@ -30,6 +30,8 @@ public class Menu {
     // User Input Scanner
     Scanner inputMain = new Scanner(System.in);
 
+    cls();
+
     System.out.println("\nWelcome to Warframe-DPS-Util-V4");
 
     /* TODO: Debug Functionality
@@ -123,16 +125,14 @@ public class Menu {
 
     }
 
-    System.out.println("\n" + comboCount);
-
     double check = Math_Utility.maxCombination((double)n, (double)r);
 
     if (comboCount == check) {
 
-      System.out.println("\nAll combinations accounted for.");
-      System.out.println("\nHighest Val: " + highestDPS);
-      System.out.println("\nHighest Combo: ");
-      Math_Utility.printCombo(highestCombo);
+      System.out.println("\nAll " + comboCount + " combinations accounted for.");
+      System.out.println("\nHighest DPS: " + highestDPS);
+      System.out.println("\nBuild: ");
+      //Math_Utility.printCombo(highestCombo);
 
       for (int i : highestCombo) {
         System.out.print("\n" + modFolder[i - 1].getName());

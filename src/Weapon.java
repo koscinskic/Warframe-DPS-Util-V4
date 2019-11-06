@@ -28,6 +28,8 @@ public class Weapon {
   private double fireRate;
   private int magazineCapacity;
   private double reloadSpeed;
+  private int maximumAmmoReserves;
+  private String ammoType;
   private double statusChance;
 
   // Variables containing the basic physical and elemental damage properties
@@ -36,9 +38,9 @@ public class Weapon {
   private double impact = 0;
   private double puncture = 0;
   private double slash = 0;
-  private double heat = 0;
   private double cold = 0;
   private double electricity = 0;
+  private double heat = 0;
   private double toxin = 0;
 
   // Variable containing the summation of all previous damage values
@@ -137,6 +139,14 @@ public class Weapon {
         this.setReloadSpeed(Double.parseDouble(entryContent));
         break;
 
+        case ("MAXIMUM AMMO RESERVES"):
+        this.setMaximumAmmoReserves(Integer.parseInt(entryContent));
+        break;
+
+        case ("AMMO TYPE"):
+        this.setAmmoType(entryContent);
+        break;
+
         case ("IMPACT"):
         this.setImpact(Double.parseDouble(entryContent));
         break;
@@ -149,10 +159,6 @@ public class Weapon {
         this.setSlash(Double.parseDouble(entryContent));
         break;
 
-        case ("HEAT"):
-        this.setHeat(Double.parseDouble(entryContent));
-        break;
-
         case ("COLD"):
         this.setCold(Double.parseDouble(entryContent));
         break;
@@ -161,8 +167,44 @@ public class Weapon {
         this.setElectricity(Double.parseDouble(entryContent));
         break;
 
+        case ("HEAT"):
+        this.setHeat(Double.parseDouble(entryContent));
+        break;
+
         case ("TOXIN"):
         this.setToxin(Double.parseDouble(entryContent));
+        break;
+
+        // TODO: Temporary solution for calculating raw DPS for dual-element weapons
+
+        case ("BLAST"):
+        this.setHeat(this.getHeat() + (Double.parseDouble(entryContent) / 2));
+        this.setCold(this.getCold() + (Double.parseDouble(entryContent) / 2));
+        break;
+
+        case ("CORROSIVE"):
+        this.setElectricity(this.getElectricity() + (Double.parseDouble(entryContent) / 2));
+        this.setToxin(this.getToxin() + (Double.parseDouble(entryContent) / 2));
+        break;
+
+        case ("GAS"):
+        this.setHeat(this.getHeat() + (Double.parseDouble(entryContent) / 2));
+        this.setToxin(this.getToxin() + (Double.parseDouble(entryContent) / 2));
+        break;
+
+        case ("MAGNETIC"):
+        this.setElectricity(this.getElectricity() + (Double.parseDouble(entryContent) / 2));
+        this.setCold(this.getCold() + (Double.parseDouble(entryContent) / 2));
+        break;
+
+        case ("RADIATION"):
+        this.setHeat(this.getHeat() + (Double.parseDouble(entryContent) / 2));
+        this.setElectricity(this.getElectricity() + (Double.parseDouble(entryContent) / 2));
+        break;
+
+        case ("VIRAL"):
+        this.setToxin(this.getToxin() + (Double.parseDouble(entryContent) / 2));
+        this.setCold(this.getCold() + (Double.parseDouble(entryContent) / 2));
         break;
 
         case ("STATUS CHANCE"):
@@ -266,16 +308,16 @@ public class Weapon {
         multishotMOD += effectValue;
         break;
 
-        case ("HEAT"):
-        heatMOD += effectValue;
-        break;
-
         case ("COLD"):
         coldMOD += effectValue;
         break;
 
         case ("ELECTRICITY"):
         electricityMOD += effectValue;
+        break;
+
+        case ("HEAT"):
+        heatMOD += effectValue;
         break;
 
         case ("TOXIN"):
@@ -453,6 +495,10 @@ public class Weapon {
 
   public void setReloadSpeed(double rs) {reloadSpeed = rs;}
 
+  public void setMaximumAmmoReserves(int ar) {maximumAmmoReserves = ar;}
+
+  public void setAmmoType(String at) {ammoType = at;}
+
   public void setStatusChance(double ss) {statusChance = ss;}
 
   public void setImpact(double im) {impact = im;}
@@ -484,6 +530,10 @@ public class Weapon {
   public int getMagazineCapacity() {return magazineCapacity;}
 
   public double getReloadSpeed() {return reloadSpeed;}
+
+  public int getMaximumAmmoReserves() {return maximumAmmoReserves;}
+
+  public String getAmmoType() {return ammoType;}
 
   public double getStatusChance() {return statusChance;}
 
