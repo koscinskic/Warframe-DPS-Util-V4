@@ -1,0 +1,14 @@
+﻿Name,Bladed Rounds
+Type,Rifle
+Polarity,Madurai
+Effect1,Critical Multiplier
+Ranks,6
+Conditional,
+,
+Cost,Effect
+2,20.00%
+3,40%
+4,60.00%
+5,80%
+6,100.00%
+7,120%

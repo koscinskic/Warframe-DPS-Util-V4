@@ -1,0 +1,32 @@
+﻿Basics,
+Name,Soma Prime
+Type,Rifle
+,
+Critical Properties,
+Critical Chance,30
+Critical Multiplier,3
+,
+Ammo Consumption,
+Fire Rate,15
+Magazine Capacity,200
+Reload Speed,3
+Maximum Ammo Reserves,800
+Ammo Type,Rifle
+,
+Status Properties,
+Status Chance,10
+,
+Physical Damage,
+Impact,1.2
+Puncture,4.8
+Slash,6
+,
+Extra Properties,
+Trigger,Auto
+Accuracy,28.6
+Noise,Alarming
+,
+,
+,
+,
+,

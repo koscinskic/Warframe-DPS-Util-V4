@@ -1,0 +1,14 @@
+﻿Name,Vigilante Armaments
+Type,Primary
+Polarity,Naramon
+Effect1,Multishot
+Ranks,6
+Conditional,
+,
+Cost,Effect
+4,10%
+5,20%
+6,30%
+7,40%
+8,50%
+9,60%

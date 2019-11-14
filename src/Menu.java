@@ -48,8 +48,8 @@ public class Menu {
     */
 
     // Hard-Coded Mod Folder and Weapon
-    Mod[] modFolder = FileManager.retrieveMods("../data/mods/pistol");
-    Weapon baseWeapon = new Weapon("../data/weapons/pistol/PyranaPrime.csv");
+    Mod[] modFolder = FileManager.retrieveMods("../data/mods/rifle");
+    Weapon baseWeapon = new Weapon("../data/weapons/rifle/SomaPrime.csv");
 
     // Hard-Coded for standard mod collection access
     Mod[] modSet = new Mod[8];

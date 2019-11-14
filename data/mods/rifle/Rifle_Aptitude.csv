@@ -1,0 +1,13 @@
+﻿Name,Rifle Aptitude
+Type,Rifle
+Polarity,Vazarin
+Effect1,Status Chance
+Ranks,6
+,
+Cost,Effect
+4,2.5%
+5,5.0%
+6,8.0%
+7,10.0%
+8,13.0%
+9,15.0%

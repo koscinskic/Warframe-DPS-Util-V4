@@ -1,0 +1,18 @@
+﻿Name,Heavy Caliber
+Type,Rifle
+Polarity,Madurai
+Effect1,Damage
+Ranks,11
+,
+Cost,Effect
+6,15%
+7,30%
+8,45%
+9,60%
+10,75%
+11,90%
+12,105%
+13,120%
+14,135%
+15,150%
+16,165%

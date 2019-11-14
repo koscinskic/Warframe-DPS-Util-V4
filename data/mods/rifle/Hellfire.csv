@@ -1,0 +1,13 @@
+﻿Name,Hellfire
+Type,Rifle
+Polarity,Naramon
+Effect1,Heat
+Ranks,6
+,
+Cost,Effect
+6,15%
+7,30%
+8,34%
+9,60%
+10,75%
+11,90%

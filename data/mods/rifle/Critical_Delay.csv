@@ -1,0 +1,14 @@
+﻿Name,Critical Delay,
+Type,Rifle,
+Polarity,Naramon,
+Effect1,Critical Chance,
+Effect2,Fire Rate,
+Ranks,6,
+,,
+Cost,Effect1,Effect2
+4,8%,-6%
+5,16%,-12%
+6,24%,-18%
+7,32%,-24%
+8,40%,-30%
+9,48%,-36%

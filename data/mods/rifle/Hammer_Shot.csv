@@ -1,0 +1,12 @@
+﻿Name,Hammer Shot,
+Type,Rifle,
+Polarity,Vazarin,
+Effect1,Critical Multiplier,
+Effect2,Status Chance,
+Ranks,4,
+,,
+Cost,Effect1,Effect2
+6,15%,10%
+7,30%,20%
+8,45%,30%
+9,60%,40%

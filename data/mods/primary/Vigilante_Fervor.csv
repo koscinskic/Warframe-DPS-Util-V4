@@ -1,0 +1,14 @@
+﻿Name,Vigilante Fervor
+Type,Primary
+Polarity,Madurai
+Effect1,Fire Rate
+Ranks,6
+Conditional,
+,
+Cost,Effect
+4,7.5%
+5,15.0%
+6,22.5%
+7,30.0%
+8,37.5%
+9,45.0%

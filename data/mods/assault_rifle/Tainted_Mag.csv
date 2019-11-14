@@ -1,0 +1,19 @@
+﻿Name,Tainted Mag,
+Type,Assault Rifle,
+Polarity,Naramon,
+Effect1,Magazine Capacity,
+Effect2,Reload Speed,
+Ranks,11,
+,,
+Cost,Effect1,Effect2
+4,6%,-3%
+5,12%,-6%
+6,18%,-9%
+7,24%,-12%
+8,30%,-15%
+9,36%,-18%
+10,42%,-21%
+11,48%,-24%
+12,54%,-28%
+13,60%,-30%
+14,66%,-33%

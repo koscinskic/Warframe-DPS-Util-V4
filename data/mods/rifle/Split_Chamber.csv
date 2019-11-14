@@ -1,0 +1,13 @@
+﻿Name,Split Chamber
+Type,Rifle
+Polarity,Madurai
+Effect1,Multishot
+Ranks,6
+,
+Cost,Effect
+10,15%
+11,30%
+12,45%
+13,60%
+14,75%
+15,90%
