@@ -220,6 +220,8 @@ public class Weapon {
     this.getSlash() + this.getHeat() + this.getCold() + this.getElectricity() +
     this.getToxin());
 
+    weaponScanner.close();
+
   }
 
   /**

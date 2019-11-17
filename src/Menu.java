@@ -5,7 +5,7 @@
 */
 
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 
 /**
 * TODO: Expand Program
@@ -14,9 +14,6 @@ import java.util.Scanner;
 */
 
 public class Menu {
-
-  // Variable for program-wide debug features
-  public static boolean debug = false;
 
   // Variable for retaining user entries
   public static String userInput;
@@ -29,27 +26,82 @@ public class Menu {
 
     // User Input Scanner
     Scanner inputMain = new Scanner(System.in);
+    String userInput = "";
+    String weaponFile = "";
+    boolean validOption = false;
+    boolean firstRun = true;
+
+    Vector<String> weaponNames = FileManager.retrieveWeaponNames();
+
+    Weapon baseWeapon = new Weapon();
 
     cls();
 
     System.out.println("\nWelcome to Warframe-DPS-Util-V4");
 
-    /* TODO: Debug Functionality
-    System.out.println("\nWould you like to enable debug mode?");
-    if (inputMain.nextLine().toUpperCase().contains("YES")) {
-      debug = true;
+    while (!validOption) {
+
+      if (!firstRun) {
+        cls();
+        System.out.println("\nYour entry \"" + userInput + "\" could not be found. Please try again.");
+      }
+
+      System.out.println("\nHere are your available weapons:");
+
+      for (int index = 0; index < weaponNames.size(); index++) {
+        System.out.println("(" + (index + 1) + ") " + FileManager.filterName(weaponNames.elementAt(index)));
+      }
+
+      System.out.print("\nPlease enter the name or number of the weapon you want to modify:\nWeapon: ");
+      userInput = inputMain.nextLine();
+
+      try {
+        int selectedWeaponNum = Integer.parseInt(userInput);
+        if (selectedWeaponNum <= weaponNames.size() && selectedWeaponNum > 0) {
+          weaponFile = weaponNames.elementAt(selectedWeaponNum - 1);
+          validOption = true;
+        }
+      } catch (NumberFormatException e) {
+        weaponFile = FileManager.expandName(userInput);
+        if (weaponNames.contains(weaponFile)) {
+          validOption = true;
+        }
+      }
+
+      firstRun = false;
+
     }
-    */
 
-    /* TODO: Calculation Time Statistics
-    System.out.println("\nPrint every (X) intervals...");
-    System.out.print("X = ");
-    int interval = Integer.parseInt(inputMain.nextLine());
-    */
+    cls();
 
-    // Hard-Coded Mod Folder and Weapon
-    Mod[] modFolder = FileManager.retrieveMods("../data/mods/rifle");
-    Weapon baseWeapon = new Weapon("../data/weapons/rifle/SomaPrime.csv");
+    System.out.println("\nSelected Weapon: " + FileManager.filterName(weaponFile));
+
+    validOption = false;
+
+    while (!validOption) {
+
+      try {
+        baseWeapon = new Weapon("../data/weapons/Pistol/" + weaponFile);
+        break;
+      } catch (Error e) {
+        // Incorrect Folder
+      }
+
+      try {
+        baseWeapon = new Weapon("../data/weapons/Assault_Rifle/" + weaponFile);
+        break;
+      } catch (Error e) {
+        // Incorrect Folde
+      }
+
+      // TODO Error / Debug Handling
+      validOption = true;
+
+    }
+
+    Mod[] modFolder = FileManager.retrieveMods("../data/mods/" + baseWeapon.getType());
+
+    // TODO
 
     // Hard-Coded for standard mod collection access
     Mod[] modSet = new Mod[8];
