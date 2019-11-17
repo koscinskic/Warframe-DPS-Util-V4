@@ -27,13 +27,14 @@ public class Menu {
     // User Input Scanner
     Scanner inputMain = new Scanner(System.in);
     String userInput = "";
-    String weaponFile = "";
+    String weaponFileName = "";
     boolean validOption = false;
     boolean firstRun = true;
 
     Vector<String> weaponNames = FileManager.retrieveWeaponNames();
 
     Weapon baseWeapon = new Weapon();
+    //File weaponFile;
 
     cls();
 
@@ -58,12 +59,12 @@ public class Menu {
       try {
         int selectedWeaponNum = Integer.parseInt(userInput);
         if (selectedWeaponNum <= weaponNames.size() && selectedWeaponNum > 0) {
-          weaponFile = weaponNames.elementAt(selectedWeaponNum - 1);
+          weaponFileName = weaponNames.elementAt(selectedWeaponNum - 1);
           validOption = true;
         }
       } catch (NumberFormatException e) {
-        weaponFile = FileManager.expandName(userInput);
-        if (weaponNames.contains(weaponFile)) {
+        weaponFileName = FileManager.expandName(userInput, ".csv");
+        if (weaponNames.contains(weaponFileName)) {
           validOption = true;
         }
       }
@@ -74,24 +75,30 @@ public class Menu {
 
     cls();
 
-    System.out.println("\nSelected Weapon: " + FileManager.filterName(weaponFile));
+    System.out.println("\nSelected Weapon: " + FileManager.filterName(weaponFileName));
 
     validOption = false;
 
     while (!validOption) {
 
       try {
-        baseWeapon = new Weapon("../data/weapons/Pistol/" + weaponFile);
+        File weaponFile = new File("../data/weapons/pistol/" + weaponFileName);
+        Scanner tempScanner = new Scanner(weaponFile);
+        tempScanner.close();
+        baseWeapon = new Weapon(weaponFile);
         break;
-      } catch (Error e) {
+      } catch (FileNotFoundException e) {
         // Incorrect Folder
       }
 
       try {
-        baseWeapon = new Weapon("../data/weapons/Assault_Rifle/" + weaponFile);
+        File weaponFile = new File("../data/weapons/assault_rifle/" + weaponFileName);
+        Scanner tempScanner = new Scanner(weaponFile);
+        tempScanner.close();
+        baseWeapon = new Weapon(weaponFile);
         break;
-      } catch (Error e) {
-        // Incorrect Folde
+      } catch (FileNotFoundException e) {
+        // Incorrect Folder
       }
 
       // TODO Error / Debug Handling
@@ -99,13 +106,13 @@ public class Menu {
 
     }
 
-    Mod[] modFolder = FileManager.retrieveMods("../data/mods/" + baseWeapon.getType());
+    Vector<Mod> modFolder = FileManager.retrieveMods(FileManager.expandName(baseWeapon.getType()).toLowerCase());
 
-    // TODO
+    // TODO Correct Below
 
     // Hard-Coded for standard mod collection access
     Mod[] modSet = new Mod[8];
-    int n = modFolder.length;
+    int n = modFolder.size();
     int r = 8;
 
     // Initial Combination
@@ -116,7 +123,7 @@ public class Menu {
 
     // Retrieves mods from collection
     for (int i : combo) {
-      modSet[index] = modFolder[i - 1];
+      modSet[index] = modFolder.elementAt(i - 1);
       index++;
     }
 
@@ -151,7 +158,7 @@ public class Menu {
       index = 0;
 
       for (int i : combo) {
-        modSet[index] = modFolder[i - 1];
+        modSet[index] = modFolder.elementAt(i - 1);
         index++;
       }
 
@@ -187,7 +194,7 @@ public class Menu {
       //Math_Utility.printCombo(highestCombo);
 
       for (int i : highestCombo) {
-        System.out.print("\n" + modFolder[i - 1].getName());
+        System.out.print("\n" + modFolder.elementAt(i - 1).getName());
       }
 
       System.out.println();

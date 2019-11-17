@@ -17,22 +17,41 @@ import java.util.*;
 
 public class FileManager {
 
+  private static String[] assault_rifle_compatibilities = new String[]{"assault_rifle", "rifle", "primary"};
+  private static String[] pistol_compatibilities = new String[]{"pistol"};
+
   /**
   *
   */
 
-  public static Mod[] retrieveMods(String folderName) {
+  public static Vector<Mod> retrieveMods(String weaponType) {
 
-    File modFolder = new File(folderName);
-    File[] mods = modFolder.listFiles();
+    Vector<Mod> modCollection = new Vector<Mod>(30, 5);
+    String[] compatibilities = new String[0];
 
-    Mod[] modCollection = new Mod[mods.length];
-    int modCount = 0;
+    File modFolder;
+    File[] mods;
 
-    for (File modFile : mods) {
+    switch (weaponType) {
 
-      modCollection[modCount] = new Mod(modFile);
-      modCount++;
+      case ("assault_rifle"):
+      compatibilities = assault_rifle_compatibilities;
+      break;
+
+      case ("pistol"):
+      compatibilities = pistol_compatibilities;
+      break;
+
+    }
+
+    for (String compatibility : compatibilities) {
+
+      modFolder = new File("../data/mods/" + compatibility);
+      mods = modFolder.listFiles();
+
+      for (File modFile : mods) {
+        modCollection.addElement(new Mod(modFile));
+      }
 
     }
 
@@ -101,7 +120,25 @@ public class FileManager {
       }
     }
 
-    output.append(".csv");
+    return output.toString();
+
+  }
+
+  public static String expandName(String input, String ext) {
+
+    StringBuilder output = new StringBuilder();
+    char l;
+
+    for (int index = 0; index < input.length(); index++) {
+      l = input.charAt(index);
+      if (l == ' ') {
+        output.append('_');
+      } else {
+        output.append(l);
+      }
+    }
+
+    output.append(ext);
 
     return output.toString();
 

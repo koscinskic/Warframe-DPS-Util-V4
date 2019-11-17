@@ -85,7 +85,7 @@ public class Weapon {
   * Constructor designed to fully convert a csv into a weapon object
   */
 
-  public Weapon(String fileName) {
+  public Weapon(File weaponFile) {
 
     // Temporary Scanner
     Scanner weaponScanner = new Scanner(System.in);
@@ -96,10 +96,9 @@ public class Weapon {
     String entryType;
 
     try {
-      File weaponFile = new File(fileName);
       weaponScanner = new Scanner(weaponFile);
-    } catch (FileNotFoundException noFile) {
-      // Handle Exception Here
+    } catch (FileNotFoundException e) {
+
     }
 
     while (weaponScanner.hasNext()) {
