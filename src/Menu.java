@@ -28,10 +28,13 @@ public class Menu {
     Scanner inputMain = new Scanner(System.in);
     String userInput = "";
     String weaponFileName = "";
+    String menuInput = "";
     boolean validOption = false;
     boolean firstRun = true;
+    boolean computationReady = false;
 
     Vector<String> weaponNames = FileManager.retrieveWeaponNames();
+    String[] optionslist = new String[]{"Optimize Burst DPS", "Optimize Sustained DPS", "Modify Optimization Priorities", "Edit Blacklist", "Edit Whitelist"};
 
     Weapon baseWeapon = new Weapon();
     //File weaponFile;
@@ -47,13 +50,17 @@ public class Menu {
         System.out.println("\nYour entry \"" + userInput + "\" could not be found. Please try again.");
       }
 
-      System.out.println("\nHere are your available weapons:");
+      System.out.println("\nHere are your available weapons:\n");
 
       for (int index = 0; index < weaponNames.size(); index++) {
-        System.out.println("(" + (index + 1) + ") " + FileManager.filterName(weaponNames.elementAt(index)));
+        if (index < 9 && weaponNames.size() >= 10) {
+          System.out.println("(0" + (index + 1) + ") " + FileManager.filterName(weaponNames.elementAt(index)));
+        } else {
+          System.out.println("(" + (index + 1) + ") " + FileManager.filterName(weaponNames.elementAt(index)));
+        }
       }
 
-      System.out.print("\nPlease enter the name or number of the weapon you want to modify:\nWeapon: ");
+      System.out.print("\nPlease enter the name or number of the weapon you want to select:\nWeapon: ");
       userInput = inputMain.nextLine();
 
       try {
@@ -74,8 +81,6 @@ public class Menu {
     }
 
     cls();
-
-    System.out.println("\nSelected Weapon: " + FileManager.filterName(weaponFileName));
 
     validOption = false;
 
@@ -107,6 +112,219 @@ public class Menu {
     }
 
     Vector<Mod> modFolder = FileManager.retrieveMods(FileManager.expandName(baseWeapon.getType()).toLowerCase());
+    boolean[] blacklist = new boolean[modFolder.size()];
+    boolean[] whitelist = new boolean[modFolder.size()];
+
+    for (int index = 0; index < blacklist.length; index++) {
+      blacklist[index] = false;
+      whitelist[index] = false;
+    }
+
+    firstRun = true;
+
+    while(!computationReady) {
+
+      validOption = false;
+
+      while(!validOption) {
+
+        cls();
+
+        System.out.println("\nSelected Weapon: " + FileManager.filterName(weaponFileName));
+
+        System.out.println("\nHere are your available mods:\n");
+
+        for (int index = 0; index < modFolder.size(); index++) {
+          if (index < 9 && modFolder.size() >= 10) {
+            System.out.print("(0" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
+          } else {
+            System.out.print("(" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
+          }
+          if (blacklist[index] == true) {
+            System.out.print(" - BLACKLISTED");
+          }
+          if (whitelist[index] == true) {
+            System.out.print(" - WHITELISTED");
+          }
+          System.out.println();
+        }
+
+        if (!firstRun) {
+          System.out.println("\nYour entry \"" + userInput + "\" could not be found. Please try again.");
+        }
+
+        System.out.println("\nHere are your available options:\n");
+
+        for (int index = 0; index < optionslist.length; index++) {
+          System.out.println("(" + (index + 1) + ") " + optionslist[index]);
+        }
+
+        System.out.print("\nPlease enter the title or number of the option you want to select:\nOption: ");
+        userInput = inputMain.nextLine();
+
+        try {
+          int selectedOptionNum = Integer.parseInt(userInput);
+          if (selectedOptionNum <= optionslist.length && selectedOptionNum > 0) {
+            userInput = optionslist[selectedOptionNum - 1];
+            validOption = true;
+          }
+        } catch (NumberFormatException e) {
+          for (String option : optionslist) {
+            if (option.equals(userInput)) {
+              validOption = true;
+              break;
+            }
+          }
+        }
+
+        firstRun = false;
+
+      }
+
+      validOption = false;
+      firstRun = true;
+
+      menuInput = userInput;
+
+      while (!validOption) {
+
+        cls();
+
+        System.out.println("\nSelected Option: " + menuInput);
+
+        switch (menuInput) {
+
+          case ("Optimize Burst DPS"):
+
+          break;
+
+          case ("Optimize Sustained DPS"):
+
+          break;
+
+          case ("Modify Optimization Priorities"):
+
+          break;
+
+          case ("Edit Blacklist"):
+
+          System.out.println("\nHere are your available mods:\n");
+
+          for (int index = 0; index < modFolder.size(); index++) {
+            if (index < 9 && modFolder.size() >= 10) {
+              System.out.print("(0" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
+            } else {
+              System.out.print("(" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
+            }
+            if (blacklist[index] == true) {
+              System.out.print(" - BLACKLISTED");
+            }
+            if (whitelist[index] == true) {
+              System.out.print(" - WHITELISTED");
+            }
+            System.out.println();
+          }
+
+          if (!firstRun) {
+            System.out.println("\nYour entry \"" + userInput + "\" could not be blacklisted. Please try again.");
+          }
+
+          System.out.print("\nPlease enter the name or number of the mod you want to blacklist:\n(Selecting a blacklisted mod will remove it from the blacklist)\nOption: ");
+          userInput = inputMain.nextLine();
+
+          try {
+            int selectedModNum = Integer.parseInt(userInput);
+            if (selectedModNum <= modFolder.size() && selectedModNum > 0) {
+              if (blacklist[selectedModNum - 1] == false) {
+                blacklist[selectedModNum - 1] = true;
+                whitelist[selectedModNum - 1] = false;
+                validOption = true;
+                firstRun = true;
+              } else {
+                blacklist[selectedModNum - 1] = false;
+                validOption = true;
+                firstRun = true;
+              }
+            }
+          } catch (NumberFormatException e) {
+            if (modFolder.contains(userInput)) {
+              if (blacklist[modFolder.indexOf(userInput)] == false) {
+                blacklist[modFolder.indexOf(userInput)] = true;
+                whitelist[modFolder.indexOf(userInput)] = false;
+                validOption = true;
+                firstRun = true;
+              } else {
+                blacklist[modFolder.indexOf(userInput)] = false;
+                validOption = true;
+                firstRun = true;
+              }
+            }
+          }
+
+          break;
+
+          case ("Edit Whitelist"):
+
+          System.out.println("\nHere are your available mods:\n");
+
+          for (int index = 0; index < modFolder.size(); index++) {
+            if (index < 9 && modFolder.size() >= 10) {
+              System.out.print("(0" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
+            } else {
+              System.out.print("(" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
+            }
+            if (blacklist[index] == true) {
+              System.out.print(" - BLACKLISTED");
+            }
+            if (whitelist[index] == true) {
+              System.out.print(" - WHITELISTED");
+            }
+            System.out.println();
+          }
+
+          if (!firstRun) {
+            System.out.println("\nYour entry \"" + userInput + "\" could not be whitelisted. Please try again.");
+          }
+
+          System.out.print("\nPlease enter the name or number of the mod you want to whitelist:\n(Selecting a whitelisted mod will remove it from the whitelist)\nOption: ");
+          userInput = inputMain.nextLine();
+
+          try {
+            int selectedModNum = Integer.parseInt(userInput);
+            if (selectedModNum <= modFolder.size() && selectedModNum > 0) {
+              if (whitelist[selectedModNum - 1] == false) {
+                whitelist[selectedModNum - 1] = true;
+                blacklist[selectedModNum - 1] = false;
+                validOption = true;
+                firstRun = true;
+              } else {
+                whitelist[selectedModNum - 1] = false;
+                validOption = true;
+                firstRun = true;
+              }
+            }
+          } catch (NumberFormatException e) {
+            if (modFolder.contains(userInput)) {
+              if (whitelist[modFolder.indexOf(userInput)] == false) {
+                whitelist[modFolder.indexOf(userInput)] = true;
+                blacklist[modFolder.indexOf(userInput)] = false;
+                validOption = true;
+                firstRun = true;
+              } else {
+                whitelist[modFolder.indexOf(userInput)] = false;
+                validOption = true;
+                firstRun = true;
+              }
+            }
+          }
+
+          break;
+
+        }
+
+      }
+
+    }
 
     // TODO Correct Below
 

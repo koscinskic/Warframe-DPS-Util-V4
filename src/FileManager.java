@@ -106,6 +106,27 @@ public class FileManager {
 
   }
 
+  public static String resetCaps(String input) {
+
+    StringBuilder output = new StringBuilder();
+    output.append(input.charAt(0));
+    char l;
+
+    for (int index = 1; index < input.length(); index++) {
+      l = input.charAt(index);
+      if (l == ' ' || l == '-') {
+        output.append(l);
+        index++;
+        output.append(input.charAt(index));
+      } else {
+        output.append((char)((int)l + 32));
+      }
+    }
+
+    return output.toString();
+
+  }
+
   public static String expandName(String input) {
 
     StringBuilder output = new StringBuilder();
