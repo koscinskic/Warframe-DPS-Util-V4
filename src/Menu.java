@@ -16,7 +16,21 @@ import java.util.*;
 public class Menu {
 
   // Variable for retaining user entries
+  public static Scanner inputMain = new Scanner(System.in);
   public static String userInput;
+
+  public static Vector<Mod> modFolder;
+  public static boolean[] blacklist;
+  public static boolean[] whitelist;
+
+  public static boolean firstRun = true;
+  public static boolean validOption = false;
+
+  public static String listName = "white";
+  public static boolean[] altlist = blacklist;
+
+  public static int[] combination;
+  public static Mod[] filteredSet;
 
   /**
   * Main Method
@@ -24,20 +38,14 @@ public class Menu {
 
   public static void main(String[] args) {
 
-    // User Input Scanner
-    Scanner inputMain = new Scanner(System.in);
-    String userInput = "";
     String weaponFileName = "";
     String menuInput = "";
-    boolean validOption = false;
-    boolean firstRun = true;
     boolean computationReady = false;
 
     Vector<String> weaponNames = FileManager.retrieveWeaponNames();
     String[] optionslist = new String[]{"Optimize Burst DPS", "Optimize Sustained DPS", "Modify Optimization Priorities", "Edit Blacklist", "Edit Whitelist"};
 
     Weapon baseWeapon = new Weapon();
-    //File weaponFile;
 
     cls();
 
@@ -111,20 +119,19 @@ public class Menu {
 
     }
 
-    Vector<Mod> modFolder = FileManager.retrieveMods(FileManager.expandName(baseWeapon.getType()).toLowerCase());
-    boolean[] blacklist = new boolean[modFolder.size()];
-    boolean[] whitelist = new boolean[modFolder.size()];
+    modFolder = FileManager.retrieveMods(FileManager.expandName(baseWeapon.getType()).toLowerCase());
+    blacklist = new boolean[modFolder.size()];
+    whitelist = new boolean[modFolder.size()];
 
     for (int index = 0; index < blacklist.length; index++) {
       blacklist[index] = false;
       whitelist[index] = false;
     }
 
-    firstRun = true;
-
     while(!computationReady) {
 
       validOption = false;
+      firstRun = true;
 
       while(!validOption) {
 
@@ -132,25 +139,14 @@ public class Menu {
 
         System.out.println("\nSelected Weapon: " + FileManager.filterName(weaponFileName));
 
-        System.out.println("\nHere are your available mods:\n");
-
-        for (int index = 0; index < modFolder.size(); index++) {
-          if (index < 9 && modFolder.size() >= 10) {
-            System.out.print("(0" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
-          } else {
-            System.out.print("(" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
-          }
-          if (blacklist[index] == true) {
-            System.out.print(" - BLACKLISTED");
-          }
-          if (whitelist[index] == true) {
-            System.out.print(" - WHITELISTED");
-          }
-          System.out.println();
-        }
+        printModFolder();
 
         if (!firstRun) {
           System.out.println("\nYour entry \"" + userInput + "\" could not be found. Please try again.");
+        }
+
+        if (!verifylists()) {
+          System.out.println("\nYour current black/whitelist configuration cannot produce a full combination. Please correct your parameters before continuing.");
         }
 
         System.out.println("\nHere are your available options:\n");
@@ -196,128 +192,48 @@ public class Menu {
 
           case ("Optimize Burst DPS"):
 
+          computationReady = true;
+          validOption = true;
+
+          System.out.println("\nBest Combination:\n");
+          combination = Optimizer.optimizeDPS(modFolder, baseWeapon, blacklist, whitelist, "BURST");
+
+          filteredSet = Optimizer.getModSet();
+
+          for (int modID : combination) {
+            System.out.println(filteredSet[modID - 1].getName());
+          }
+
           break;
 
           case ("Optimize Sustained DPS"):
+
+          computationReady = true;
+          validOption = true;
+
+          System.out.println("\nBest Combination:\n");
+          combination = Optimizer.optimizeDPS(modFolder, baseWeapon, blacklist, whitelist, "SUSTAINED");
+
+          filteredSet = Optimizer.getModSet();
+
+          for (int modID : combination) {
+            System.out.println(filteredSet[modID - 1].getName());
+          }
 
           break;
 
           case ("Modify Optimization Priorities"):
 
+          // TODO Implementation
+
           break;
 
           case ("Edit Blacklist"):
-
-          System.out.println("\nHere are your available mods:\n");
-
-          for (int index = 0; index < modFolder.size(); index++) {
-            if (index < 9 && modFolder.size() >= 10) {
-              System.out.print("(0" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
-            } else {
-              System.out.print("(" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
-            }
-            if (blacklist[index] == true) {
-              System.out.print(" - BLACKLISTED");
-            }
-            if (whitelist[index] == true) {
-              System.out.print(" - WHITELISTED");
-            }
-            System.out.println();
-          }
-
-          if (!firstRun) {
-            System.out.println("\nYour entry \"" + userInput + "\" could not be blacklisted. Please try again.");
-          }
-
-          System.out.print("\nPlease enter the name or number of the mod you want to blacklist:\n(Selecting a blacklisted mod will remove it from the blacklist)\nOption: ");
-          userInput = inputMain.nextLine();
-
-          try {
-            int selectedModNum = Integer.parseInt(userInput);
-            if (selectedModNum <= modFolder.size() && selectedModNum > 0) {
-              if (blacklist[selectedModNum - 1] == false) {
-                blacklist[selectedModNum - 1] = true;
-                whitelist[selectedModNum - 1] = false;
-                validOption = true;
-                firstRun = true;
-              } else {
-                blacklist[selectedModNum - 1] = false;
-                validOption = true;
-                firstRun = true;
-              }
-            }
-          } catch (NumberFormatException e) {
-            if (modFolder.contains(userInput)) {
-              if (blacklist[modFolder.indexOf(userInput)] == false) {
-                blacklist[modFolder.indexOf(userInput)] = true;
-                whitelist[modFolder.indexOf(userInput)] = false;
-                validOption = true;
-                firstRun = true;
-              } else {
-                blacklist[modFolder.indexOf(userInput)] = false;
-                validOption = true;
-                firstRun = true;
-              }
-            }
-          }
-
+          editlist(blacklist);
           break;
 
           case ("Edit Whitelist"):
-
-          System.out.println("\nHere are your available mods:\n");
-
-          for (int index = 0; index < modFolder.size(); index++) {
-            if (index < 9 && modFolder.size() >= 10) {
-              System.out.print("(0" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
-            } else {
-              System.out.print("(" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
-            }
-            if (blacklist[index] == true) {
-              System.out.print(" - BLACKLISTED");
-            }
-            if (whitelist[index] == true) {
-              System.out.print(" - WHITELISTED");
-            }
-            System.out.println();
-          }
-
-          if (!firstRun) {
-            System.out.println("\nYour entry \"" + userInput + "\" could not be whitelisted. Please try again.");
-          }
-
-          System.out.print("\nPlease enter the name or number of the mod you want to whitelist:\n(Selecting a whitelisted mod will remove it from the whitelist)\nOption: ");
-          userInput = inputMain.nextLine();
-
-          try {
-            int selectedModNum = Integer.parseInt(userInput);
-            if (selectedModNum <= modFolder.size() && selectedModNum > 0) {
-              if (whitelist[selectedModNum - 1] == false) {
-                whitelist[selectedModNum - 1] = true;
-                blacklist[selectedModNum - 1] = false;
-                validOption = true;
-                firstRun = true;
-              } else {
-                whitelist[selectedModNum - 1] = false;
-                validOption = true;
-                firstRun = true;
-              }
-            }
-          } catch (NumberFormatException e) {
-            if (modFolder.contains(userInput)) {
-              if (whitelist[modFolder.indexOf(userInput)] == false) {
-                whitelist[modFolder.indexOf(userInput)] = true;
-                blacklist[modFolder.indexOf(userInput)] = false;
-                validOption = true;
-                firstRun = true;
-              } else {
-                whitelist[modFolder.indexOf(userInput)] = false;
-                validOption = true;
-                firstRun = true;
-              }
-            }
-          }
-
+          editlist(whitelist);
           break;
 
         }
@@ -326,98 +242,118 @@ public class Menu {
 
     }
 
-    // TODO Correct Below
+  }
 
-    // Hard-Coded for standard mod collection access
-    Mod[] modSet = new Mod[8];
-    int n = modFolder.size();
-    int r = 8;
+  /**
+  *
+  */
 
-    // Initial Combination
-    int[] combo = Math_Utility.generateCombination(n, r);
+  private static void printModFolder() {
 
-    // Variable for traversing the ModSet array
-    int index = 0;
+    System.out.println("\nHere are your available mods:\n");
 
-    // Retrieves mods from collection
-    for (int i : combo) {
-      modSet[index] = modFolder.elementAt(i - 1);
-      index++;
-    }
-
-    // Duplication of base weapon that serves as a template for applying mod
-    // effects
-    Weapon moddedWeapon = new Weapon(baseWeapon);
-    moddedWeapon.modifyWeapon(modSet);
-
-    /**
-    * TODO: Temporary optimization of DPS for proof-of-concept
-    * All below will eventually be organized into a seperate class
-    */
-
-    double highestDPS = DPS_Calculator.calculateSustainedDPS(moddedWeapon);
-    double tempVal = 0;
-
-    int[] highestCombo = new int[8];
-
-    int ti = 0;
-    for (int i : combo) {
-      highestCombo[ti] = i;
-      ti++;
-    }
-    ti = 0;
-
-    double comboCount = 1;
-
-    while (combo[0] != ((n - r) + 1)) {
-
-      combo = Math_Utility.incrementCombination(n, combo);
-
-      index = 0;
-
-      for (int i : combo) {
-        modSet[index] = modFolder.elementAt(i - 1);
-        index++;
+    for (int index = 0; index < modFolder.size(); index++) {
+      if (index < 9 && modFolder.size() >= 10) {
+        System.out.print("(0" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
+      } else {
+        System.out.print("(" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
       }
-
-      moddedWeapon = new Weapon(baseWeapon);
-      moddedWeapon.modifyWeapon(modSet);
-
-      tempVal = DPS_Calculator.calculateInstantDPS(moddedWeapon);
-
-      if (tempVal > highestDPS) {
-
-        highestDPS = tempVal;
-
-        for (int i : combo) {
-          highestCombo[ti] = i;
-          ti++;
-        }
-
-        ti = 0;
-
+      if (blacklist[index] == true) {
+        System.out.print(" - BLACKLISTED");
       }
-
-      comboCount++;
-
-    }
-
-    double check = Math_Utility.maxCombination((double)n, (double)r);
-
-    if (comboCount == check) {
-
-      System.out.println("\nAll " + comboCount + " combinations accounted for.");
-      System.out.println("\nHighest DPS: " + highestDPS);
-      System.out.println("\nBuild: ");
-      //Math_Utility.printCombo(highestCombo);
-
-      for (int i : highestCombo) {
-        System.out.print("\n" + modFolder.elementAt(i - 1).getName());
+      if (whitelist[index] == true) {
+        System.out.print(" - WHITELISTED");
       }
-
       System.out.println();
-
     }
+
+  }
+
+  /**
+  *
+  */
+
+  private static void editlist(boolean[] currentlist) {
+
+    String listName = "white";
+    boolean[] altlist = blacklist;
+
+    if (currentlist == blacklist) {
+      listName = "black";
+      altlist = whitelist;
+    }
+
+    printModFolder();
+
+    if (!firstRun) {
+      System.out.println("\nYour entry \"" + userInput + "\" could not be " + listName + "listed. Please try again.");
+    }
+
+    firstRun = false;
+
+    System.out.print("\nPlease enter the name or number of the mod you want to " + listName + "list:\n(Selecting a " + listName + "listed mod will remove it from the " + listName + "list)\nOption: ");
+    userInput = inputMain.nextLine();
+
+    try {
+      int selectedModNum = Integer.parseInt(userInput);
+      if (selectedModNum <= modFolder.size() && selectedModNum > 0) {
+        if (currentlist[selectedModNum - 1] == false) {
+          currentlist[selectedModNum - 1] = true;
+          altlist[selectedModNum - 1] = false;
+          validOption = true;
+          firstRun = true;
+        } else {
+          currentlist[selectedModNum - 1] = false;
+          validOption = true;
+          firstRun = true;
+        }
+      }
+    } catch (NumberFormatException e) {
+      if (modFolder.contains(userInput)) {
+        if (currentlist[modFolder.indexOf(userInput)] == false) {
+          currentlist[modFolder.indexOf(userInput)] = true;
+          altlist[modFolder.indexOf(userInput)] = false;
+          validOption = true;
+          firstRun = true;
+        } else {
+          currentlist[modFolder.indexOf(userInput)] = false;
+          validOption = true;
+          firstRun = true;
+        }
+      }
+    }
+
+  }
+
+  /**
+  *
+  */
+
+  public static boolean verifylists() {
+
+    int whitelistCount = 0;
+    int blacklistCount = 0;
+
+    boolean validlist = true;
+
+    for (int index = 0; index < whitelist.length; index++) {
+      if (whitelist[index] == true) {
+        whitelistCount++;
+      }
+      if (blacklist[index] == true) {
+        blacklistCount++;
+      }
+    }
+
+    if (whitelistCount > 8) {
+      validlist = false;
+    }
+
+    if (modFolder.size() - blacklistCount < 8) {
+      validlist = false;
+    }
+
+    return validlist;
 
   }
 
