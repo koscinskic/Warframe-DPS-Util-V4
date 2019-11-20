@@ -18,8 +18,8 @@ public class Mod {
   private String name;
   private String type;
 
-  // TODO: Variable that is currently unused...will eventually be incorporated in
-  // order to determine the overall drain of a mod configuration.
+  // TODO: Variable that is currently unused...will eventually be incorporated
+  // in order to determine the overall drain of a mod configuration.
   private String polarity;
 
   // Variables serving to indicate the property that is altered by the mod.
@@ -79,8 +79,8 @@ public class Mod {
         entryLine = entry.split(",");
         entryType = entryLine[0];
 
-        // TODO: BOM removal is not currently implemented, thus the first line cannot
-        // be included as a switch case
+        // TODO: BOM removal is not currently implemented, thus the first line
+        // cannot be included as a switch case
         if (entryType.contains("NAME")) {
 
           this.setName(entryLine[1]);
@@ -124,7 +124,7 @@ public class Mod {
 
         } else {
 
-          // TODO: Format to adhere to S&G structure
+          // TODO: Format to adhere to setter & getter structure
           modValues[0][this.getCurrentRank()] = Integer.parseInt(entryType);
           modValues[1][this.getCurrentRank()] = Double.parseDouble(
           entryLine[1].substring(0, entryLine[1].indexOf("%")));
@@ -148,6 +148,8 @@ public class Mod {
 
   /**
   * Method that displays the relevant information for the mod in the console
+  *
+  * Currently serves solely as a debug tool
   */
 
   public void printMod() {

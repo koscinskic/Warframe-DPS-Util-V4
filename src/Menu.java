@@ -8,44 +8,58 @@ import java.io.*;
 import java.util.*;
 
 /**
-* TODO: Expand Program
-* As of the current moment, Menu is a highly volatile and subject-to-change
-* class that will eventually serve as the central UI and access to the project.
+* The Menu class serves as the main execution class and contains the UI of the
+* program. Due to the relatively recent expansion of the overall class structure
+* concerning this program, redundant variables and methods may be subject to
+* change.
 */
 
 public class Menu {
 
-  // Variable for retaining user entries
+  // Variables for retaining user entries
   public static Scanner inputMain = new Scanner(System.in);
   public static String userInput;
 
-  public static Vector<Mod> modFolder;
-  public static boolean[] blacklist;
-  public static boolean[] whitelist;
-
+  // Variables for regulating UI flow
   public static boolean firstRun = true;
   public static boolean validOption = false;
 
-  public static String listName = "white";
-  public static boolean[] altlist = blacklist;
+  // Variables containing filter lists
+  public static boolean[] blacklist;
+  public static boolean[] whitelist;
 
-  public static Mod[] combination;
-  public static Mod[] filteredSet;
+  // Variable containing mod object information
+  public static Vector<Mod> modFolder;
 
   /**
   * Main Method
+  *
+  * TODO: Currently encompasses proccesses that could be dedicated to other
+  * classes and modularized, thus not serving any definite purpose besides
+  * UI control.
   */
 
   public static void main(String[] args) {
 
+    // Variable concerning the vanilla weapon for identification and duplication
+    Weapon baseWeapon = new Weapon();
+
+    // Variable containing the text name of the weapon file
+    // TODO: expand UI filter system to make use of the modular file system
     String weaponFileName = "";
+
+    // Variables for regulating UI flow
     String menuInput = "";
     boolean computationReady = false;
 
+    // Variable containing the full list of weapons present in the file system
     Vector<String> weaponNames = FileManager.retrieveWeaponNames();
-    String[] optionslist = new String[]{"Optimize Burst DPS", "Optimize Sustained DPS", "Modify Optimization Priorities", "Edit Blacklist", "Edit Whitelist"};
 
-    Weapon baseWeapon = new Weapon();
+    // Variable containing a list of options for the options menu
+    // TODO: contain UI functions and methods in a seperate class
+    String[] optionslist = new String[]{"Optimize Burst DPS",
+    "Optimize Sustained DPS", "Modify Optimization Priorities",
+    "Edit Blacklist", "Edit Whitelist"};
 
     cls();
 
@@ -55,20 +69,24 @@ public class Menu {
 
       if (!firstRun) {
         cls();
-        System.out.println("\nYour entry \"" + userInput + "\" could not be found. Please try again.");
+        System.out.println("\nYour entry \"" + userInput +
+        "\" could not be found. Please try again.");
       }
 
       System.out.println("\nHere are your available weapons:\n");
 
       for (int index = 0; index < weaponNames.size(); index++) {
         if (index < 9 && weaponNames.size() >= 10) {
-          System.out.println("(0" + (index + 1) + ") " + FileManager.filterName(weaponNames.elementAt(index)));
+          System.out.println("(0" + (index + 1) + ") " +
+          FileManager.filterName(weaponNames.elementAt(index)));
         } else {
-          System.out.println("(" + (index + 1) + ") " + FileManager.filterName(weaponNames.elementAt(index)));
+          System.out.println("(" + (index + 1) + ") " +
+          FileManager.filterName(weaponNames.elementAt(index)));
         }
       }
 
-      System.out.print("\nPlease enter the name or number of the weapon you want to select:\nWeapon: ");
+      System.out.print("\nPlease enter the name or number of the weapon" +
+      "you want to select:\nWeapon: ");
       userInput = inputMain.nextLine();
 
       try {
@@ -101,11 +119,12 @@ public class Menu {
         baseWeapon = new Weapon(weaponFile);
         break;
       } catch (FileNotFoundException e) {
-        // Incorrect Folder
+        // Incorrect Folder ... Attempt Next Block
       }
 
       try {
-        File weaponFile = new File("../data/weapons/assault_rifle/" + weaponFileName);
+        File weaponFile = new File("../data/weapons/assault_rifle/" +
+        weaponFileName);
         Scanner tempScanner = new Scanner(weaponFile);
         tempScanner.close();
         baseWeapon = new Weapon(weaponFile);
@@ -119,7 +138,8 @@ public class Menu {
 
     }
 
-    modFolder = FileManager.retrieveMods(FileManager.expandName(baseWeapon.getType()).toLowerCase());
+    modFolder = FileManager.retrieveMods(FileManager.expandName(
+    baseWeapon.getType()).toLowerCase());
     blacklist = new boolean[modFolder.size()];
     whitelist = new boolean[modFolder.size()];
 
@@ -137,16 +157,20 @@ public class Menu {
 
         cls();
 
-        System.out.println("\nSelected Weapon: " + FileManager.filterName(weaponFileName));
+        System.out.println("\nSelected Weapon: " +
+        FileManager.filterName(weaponFileName));
 
         printModFolder();
 
         if (!firstRun) {
-          System.out.println("\nYour entry \"" + userInput + "\" could not be found. Please try again.");
+          System.out.println("\nYour entry \"" + userInput +
+          "\" could not be found. Please try again.");
         }
 
         if (!verifylists()) {
-          System.out.println("\nYour current black/whitelist configuration cannot produce a full combination. Please correct your parameters before continuing.");
+          System.out.println("\nYour current black/whitelist configuration" +
+          "cannot produce a full combination." +
+          "Please correct your parameters before continuing.");
         }
 
         System.out.println("\nHere are your available options:\n");
@@ -155,12 +179,14 @@ public class Menu {
           System.out.println("(" + (index + 1) + ") " + optionslist[index]);
         }
 
-        System.out.print("\nPlease enter the title or number of the option you want to select:\nOption: ");
+        System.out.print("\nPlease enter the title or number" +
+        "of the option you want to select:\nOption: ");
         userInput = inputMain.nextLine();
 
         try {
           int selectedOptionNum = Integer.parseInt(userInput);
-          if (selectedOptionNum <= optionslist.length && selectedOptionNum > 0) {
+          if (selectedOptionNum <= optionslist.length &&
+          selectedOptionNum > 0) {
             userInput = optionslist[selectedOptionNum - 1];
             validOption = true;
           }
@@ -196,7 +222,8 @@ public class Menu {
           validOption = true;
 
           System.out.println("\nBest Combination:\n");
-          combination = Optimizer.optimizeDPS(modFolder, baseWeapon, blacklist, whitelist, "BURST");
+          combination = Optimizer.optimizeDPS(modFolder, baseWeapon, blacklist,
+          whitelist, "BURST");
 
           for (Mod mod : combination) {
             System.out.println(mod.getName());
@@ -210,7 +237,8 @@ public class Menu {
           validOption = true;
 
           System.out.println("\nBest Combination:\n");
-          combination = Optimizer.optimizeDPS(modFolder, baseWeapon, blacklist, whitelist, "SUSTAINED");
+          combination = Optimizer.optimizeDPS(modFolder, baseWeapon, blacklist,
+          whitelist, "SUSTAINED");
 
           for (Mod mod : combination) {
             System.out.println(mod.getName());
@@ -241,7 +269,7 @@ public class Menu {
   }
 
   /**
-  *
+  * Prints the eligable mods with their filter list status
   */
 
   private static void printModFolder() {
@@ -250,9 +278,11 @@ public class Menu {
 
     for (int index = 0; index < modFolder.size(); index++) {
       if (index < 9 && modFolder.size() >= 10) {
-        System.out.print("(0" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
+        System.out.print("(0" + (index + 1) + ") " + String.format("%-25s",
+        FileManager.resetCaps(modFolder.elementAt(index).getName())));
       } else {
-        System.out.print("(" + (index + 1) + ") " + String.format("%-25s", FileManager.resetCaps(modFolder.elementAt(index).getName())));
+        System.out.print("(" + (index + 1) + ") " + String.format("%-25s",
+        FileManager.resetCaps(modFolder.elementAt(index).getName())));
       }
       if (blacklist[index] == true) {
         System.out.print(" - BLACKLISTED");
@@ -266,7 +296,9 @@ public class Menu {
   }
 
   /**
-  *
+  * Process for altering the whitelist and blacklist
+  * TODO: Currently serves exclusively to condense code and will eventually be
+  * replaced with more practical and modular procedures
   */
 
   private static void editlist(boolean[] currentlist) {
@@ -282,12 +314,15 @@ public class Menu {
     printModFolder();
 
     if (!firstRun) {
-      System.out.println("\nYour entry \"" + userInput + "\" could not be " + listName + "listed. Please try again.");
+      System.out.println("\nYour entry \"" + userInput + "\" could not be " +
+      listName + "listed. Please try again.");
     }
 
     firstRun = false;
 
-    System.out.print("\nPlease enter the name or number of the mod you want to " + listName + "list:\n(Selecting a " + listName + "listed mod will remove it from the " + listName + "list)\nOption: ");
+    System.out.print("\nPlease enter the name or number of the mod you want to "
+    + listName + "list:\n(Selecting a " + listName +
+    "listed mod will remove it from the " + listName + "list)\nOption: ");
     userInput = inputMain.nextLine();
 
     try {
@@ -323,11 +358,13 @@ public class Menu {
   }
 
   /**
-  *
+  * Returns a mod's index location given the name
   */
 
   public static int searchModFolder(String input) {
 
+    // Variable concerning the modID
+    // Returns "-1" if the given name does not exist
     int modID = -1;
 
     for (Mod mod : modFolder) {
@@ -343,15 +380,17 @@ public class Menu {
   }
 
   /**
-  *
+  * Restricts the user from establishing impossible filter parameters
   */
 
   public static boolean verifylists() {
 
+    // Variable concerning the end result of the verification process
+    boolean validlist = true;
+
+    // Variables concerning the quantity of mods within filter lists
     int whitelistCount = 0;
     int blacklistCount = 0;
-
-    boolean validlist = true;
 
     for (int index = 0; index < whitelist.length; index++) {
       if (whitelist[index] == true) {

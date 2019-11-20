@@ -8,27 +8,35 @@ import java.io.*;
 import java.util.*;
 
 /**
-* The FileManager class currently serves solely to convert Mod files into Mod
-* objects.
+* The FileManager class currently serves to facilite information transfer
+* between files, custom objects, and modified strings. Due to the relatively
+* recent expansion of the overall class structure concerning this program,
+* redundant variables and methods may be subject to change.
 *
-* TODO: FileManager will eventually be depreciated in favor of a more
-* comprehensive folder-and-file filter system
+* Variables containing "compatibilities" refers to folders that contain mods
+* that the given weapon is capable of equipping.
 */
 
 public class FileManager {
 
-  private static String[] assault_rifle_compatibilities = new String[]{"assault_rifle", "rifle", "primary"};
+  // Variables containing the mod compatibilities (see above)
+  private static String[] assault_rifle_compatibilities = new String[]
+  {"assault_rifle", "rifle", "primary"};
   private static String[] pistol_compatibilities = new String[]{"pistol"};
 
   /**
-  *
+  * Retrieves and collates a mod collection given a specific weapon type
   */
 
   public static Vector<Mod> retrieveMods(String weaponType) {
 
-    Vector<Mod> modCollection = new Vector<Mod>(30, 5);
+    // Variable containg the mod compatibilities for iteration (see above)
     String[] compatibilities = new String[0];
 
+    // Variable containing mod object information
+    Vector<Mod> modCollection = new Vector<Mod>(30, 5);
+
+    // Variables containing mod file information
     File modFolder;
     File[] mods;
 
@@ -59,15 +67,22 @@ public class FileManager {
 
   }
 
+  /**
+  * Retrieves and collates the full list of weapons present in the file system
+  */
+
   public static Vector<String> retrieveWeaponNames() {
 
-    String[] currentNames;
-    File[] currentFolder;
-
+    // Variable containing the full list of weapons present in the file system
     Vector<String> weaponNames = new Vector<String>(10, 10);
 
+    // Variables containing file system organization and retrieval
     File master = new File("../data/weapons");
     File[] masterWeaponFolder = master.listFiles();
+
+    // Variables containing temporary storage information
+    String[] currentNames;
+    File[] currentFolder;
 
     for (File weaponFolder : masterWeaponFolder) {
 
@@ -85,6 +100,10 @@ public class FileManager {
     return weaponNames;
 
   }
+
+  /**
+  * Strips underscores and file extentions from text
+  */
 
   public static String filterName(String input) {
 
@@ -106,8 +125,13 @@ public class FileManager {
 
   }
 
+  /**
+  * Forces only the first letter of each word in the text to be capitalized
+  */
+
   public static String resetCaps(String input) {
 
+    // Variables concerning text construction
     StringBuilder output = new StringBuilder();
     output.append(input.charAt(0));
     char l;
@@ -127,8 +151,13 @@ public class FileManager {
 
   }
 
+  /**
+  * Converts regular text into underscore-linked text
+  */
+
   public static String expandName(String input) {
 
+    // Variables concerning text construction
     StringBuilder output = new StringBuilder();
     char l;
 
@@ -145,8 +174,13 @@ public class FileManager {
 
   }
 
+  /**
+  * Converts regular text into underscore-linked text with a file extention
+  */
+
   public static String expandName(String input, String ext) {
 
+    // Variables concerning text construction
     StringBuilder output = new StringBuilder();
     char l;
 

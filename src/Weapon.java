@@ -174,7 +174,10 @@ public class Weapon {
         this.setToxin(Double.parseDouble(entryContent));
         break;
 
-        // TODO: Temporary solution for calculating raw DPS for dual-element weapons
+        // TODO: Temporary solution for calculating raw DPS for dual-element
+        // weapons
+        // For the sake of calculating raw DPS, this system is functional, but
+        // does not accurately reflect elemental modifiers
 
         case ("BLAST"):
         this.setHeat(this.getHeat() + (Double.parseDouble(entryContent) / 2));
