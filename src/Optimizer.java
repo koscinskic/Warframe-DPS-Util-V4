@@ -29,13 +29,13 @@ public class Optimizer {
   private static int whitelistCount = 0;
   private static int blacklistCount = 0;
 
-  public static int[] optimizeDPS(Vector<Mod> modFolder, Weapon baseWeapon, boolean[] blacklist, boolean[] whitelist, String mode) {
+  public static Mod[] optimizeDPS(Vector<Mod> modFolder, Weapon baseWeapon, boolean[] blacklist, boolean[] whitelist, String mode) {
 
-    int[] highestCombo = new int[8];
+    Mod[] highestCombo = new Mod[8];
     double highestDPS = 0;
     double currentDPS = 0;
 
-    double comboCount = 0;
+    int comboCount = 0;
 
     for (int index = 0; index < whitelist.length; index++) {
       if (whitelist[index] == true) {
@@ -112,8 +112,8 @@ public class Optimizer {
 
         highestDPS = currentDPS;
 
-        for (int modID : combo) {
-          highestCombo[setIndex] = modID;
+        for (Mod mod : comboSet) {
+          highestCombo[setIndex] = mod;
           setIndex++;
         }
 
@@ -121,7 +121,7 @@ public class Optimizer {
 
       }
 
-    } while (comboCount < Math_Utility.maxCombination(n, r));
+    } while (comboCount + 1 < Math_Utility.maxCombination(n, r));
 
     return highestCombo;
 

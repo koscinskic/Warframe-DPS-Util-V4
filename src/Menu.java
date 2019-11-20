@@ -29,7 +29,7 @@ public class Menu {
   public static String listName = "white";
   public static boolean[] altlist = blacklist;
 
-  public static int[] combination;
+  public static Mod[] combination;
   public static Mod[] filteredSet;
 
   /**
@@ -198,10 +198,8 @@ public class Menu {
           System.out.println("\nBest Combination:\n");
           combination = Optimizer.optimizeDPS(modFolder, baseWeapon, blacklist, whitelist, "BURST");
 
-          filteredSet = Optimizer.getModSet();
-
-          for (int modID : combination) {
-            System.out.println(filteredSet[modID - 1].getName());
+          for (Mod mod : combination) {
+            System.out.println(mod.getName());
           }
 
           break;
@@ -214,10 +212,8 @@ public class Menu {
           System.out.println("\nBest Combination:\n");
           combination = Optimizer.optimizeDPS(modFolder, baseWeapon, blacklist, whitelist, "SUSTAINED");
 
-          filteredSet = Optimizer.getModSet();
-
-          for (int modID : combination) {
-            System.out.println(filteredSet[modID - 1].getName());
+          for (Mod mod : combination) {
+            System.out.println(mod.getName());
           }
 
           break;
@@ -309,10 +305,11 @@ public class Menu {
         }
       }
     } catch (NumberFormatException e) {
-      if (modFolder.contains(userInput)) {
-        if (currentlist[modFolder.indexOf(userInput)] == false) {
-          currentlist[modFolder.indexOf(userInput)] = true;
-          altlist[modFolder.indexOf(userInput)] = false;
+      int selectedModNum = searchModFolder(userInput);
+      if (selectedModNum != -1) {
+        if (currentlist[selectedModNum] == false) {
+          currentlist[selectedModNum] = true;
+          altlist[selectedModNum] = false;
           validOption = true;
           firstRun = true;
         } else {
@@ -322,6 +319,26 @@ public class Menu {
         }
       }
     }
+
+  }
+
+  /**
+  *
+  */
+
+  public static int searchModFolder(String input) {
+
+    int modID = -1;
+
+    for (Mod mod : modFolder) {
+      if (input.toUpperCase().equals(mod.getName())) {
+        modID = modFolder.indexOf(mod);
+        System.out.println("MOD" + modID);
+        break;
+      }
+    }
+
+    return modID;
 
   }
 
