@@ -30,7 +30,7 @@ public class Optimizer {
     double currentDPS = 0;
 
     // Variable containing the mathematical combination for modIDs
-    int[] combo;
+    int[] combo = new int[8];
 
     // Variables containing mod object combinations
     Mod[] highestCombo = new Mod[8];

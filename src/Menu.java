@@ -61,6 +61,10 @@ public class Menu {
     "Optimize Sustained DPS", "Modify Optimization Priorities",
     "Edit Blacklist", "Edit Whitelist"};
 
+    // Variable containing the optimal mod combination
+    // TODO: Depreciate variable in favor of alternate data transfer procedures
+    Mod[] combination = new Mod[8];
+
     cls();
 
     System.out.println("\nWelcome to Warframe-DPS-Util-V4");
