@@ -103,6 +103,8 @@ public class FileManager {
 
   /**
   * Restricts the user from establishing impossible filter parameters
+  *
+  * TODO: Improve data handling so this method does not require access to Main
   */
 
   public static boolean verifylists(boolean[] whitelist, boolean[] blacklist) {
@@ -127,6 +129,7 @@ public class FileManager {
       validlist = false;
     }
 
+    // TODO: (See method description)
     if (Main.modFolder.size() - blacklistCount < 8) {
       validlist = false;
     }

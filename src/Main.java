@@ -8,33 +8,16 @@ import java.io.*;
 import java.util.*;
 
 /**
-* The Menu class serves as the main execution class and contains the UI of the
-* program. Due to the relatively recent expansion of the overall class structure
-* concerning this program, redundant variables and methods may be subject to
-* change.
-*/
-
-/**
-* TODO: Comment Regarding Whitelist/Blackist Interacting With Mod System
-*/
-
-/**
-* TODO: Comment Inner Whitelist Code Block
-*/
-
-/**
-* TODO: README
+* The Main class currently serves as a platform for assisting the UI class as
+* well as providing the main execution of the program. Due to a recent effort
+* intended to partially refactor the program, UI cannot function as a standalone
+* class and relies upon the variables contained within this class.
 */
 
 public class Main {
 
-  // Variables for retaining user entries
+  // Variable containing the main scanner
   public static Scanner inputMain = new Scanner(System.in);
-  public static String userInput;
-
-  // Variables for regulating UI flow
-  public static boolean firstRun = true;
-  public static boolean validOption = false;
 
   // Variables containing filter lists
   public static boolean[] blacklist;
@@ -43,7 +26,8 @@ public class Main {
   // Variable containing mod object information
   public static Vector<Mod> modFolder;
 
-
+  // DEBUG: All variables past this line were originally contained exlusively
+  // within the main method (See class description above)
 
   // Variable concerning the vanilla weapon for identification and duplication
   public static Weapon baseWeapon = new Weapon();
@@ -60,7 +44,7 @@ public class Main {
   public static Vector<String> weaponNames = FileManager.retrieveWeaponNames();
 
   // Variable containing a list of options for the options menu
-  // TODO: contain UI functions and methods in a seperate class
+  // TODO: Reform and expand UI to read arrays like this from their own file
   public static String[] optionslist = new String[]{"Optimize Burst DPS",
   "Optimize Sustained DPS", "Modify Optimization Priorities",
   "Edit Blacklist", "Edit Whitelist"};
@@ -71,19 +55,14 @@ public class Main {
 
   /**
   * Main Method
-  *
-  * TODO: Currently encompasses proccesses that could be dedicated to other
-  * classes and modularized, thus not serving any definite purpose besides
-  * UI control.
   */
 
   public static void main(String[] args) {
 
     UI.loopMenu("WeaponList");
 
-    validOption = false;
-
-    while (!validOption) {
+    // TODO: Error Handling
+    while (true) {
 
       try {
         File weaponFile = new File("../data/weapons/pistol/" + weaponFileName);
@@ -106,13 +85,16 @@ public class Main {
         // Incorrect Folder
       }
 
-      // TODO Error / Debug Handling
-      validOption = true;
+      // TODO: Error Handling - Not anticipated unless user does not consult the
+      // README and incorrectly organizes folders
+
+      break;
 
     }
 
     modFolder = FileManager.retrieveMods(FileManager.expandName(
     baseWeapon.getType()).toLowerCase());
+
     blacklist = new boolean[modFolder.size()];
     whitelist = new boolean[modFolder.size()];
 
@@ -122,9 +104,7 @@ public class Main {
     }
 
     while(!computationReady) {
-
       UI.loopMenu("ModConfig");
-
     }
 
   }

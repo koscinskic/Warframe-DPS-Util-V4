@@ -8,18 +8,27 @@ import java.io.*;
 import java.util.*;
 
 /**
-*
+* The UI class currently serves as the basis for properly displaying a variety
+* of lists, folders, files, et cetera. Due to a recent effort intended to
+* partially refactor the program, this class heavily relies upon variables
+* contained within the Main class, and will eventually be rewritten to function
+* as a standalone class.
 */
 
 public class UI {
 
+  // Variable concerned with retaining user input across methods
+  private static String userInput;
+
+  // Variables concerning UI regulation
   private static boolean validOption = false;
   private static boolean firstRun = true;
 
-  private static String userInput;
-
   /**
+  * Continuously reprints a series of lists and messages based upon hard-coded
+  * menu options
   *
+  * TODO: Improve to function as a standalone class
   */
 
   public static void loopMenu(String menuType) {
@@ -58,12 +67,18 @@ public class UI {
         case ("WeaponList"):
 
         printWeaponList(Main.weaponNames);
-        userInput = weaponInquiry();
+
+        System.out.print("\nPlease enter the name or number of the weapon " +
+        "you want to select:\nWeapon: ");
+
+        userInput = Main.inputMain.nextLine();
 
         try {
           int selectedWeaponNum = Integer.parseInt(userInput);
-          if (selectedWeaponNum <= Main.weaponNames.size() && selectedWeaponNum > 0) {
-            Main.weaponFileName = Main.weaponNames.elementAt(selectedWeaponNum - 1);
+          if (selectedWeaponNum <= Main.weaponNames.size() &&
+          selectedWeaponNum > 0) {
+            Main.weaponFileName = Main.weaponNames.elementAt(
+            selectedWeaponNum - 1);
             validOption = true;
           }
         } catch (NumberFormatException e) {
@@ -84,7 +99,11 @@ public class UI {
         }
 
         printMenuOptions(Main.optionslist);
-        userInput = menuInquiry();
+
+        System.out.print("\nPlease enter the title or number " +
+        "of the option you want to select:\nOption: ");
+
+        userInput = Main.inputMain.nextLine();
 
         try {
           int selectedOptionNum = Integer.parseInt(userInput);
@@ -112,8 +131,8 @@ public class UI {
         validOption = true;
 
         System.out.println("\nBest Combination:\n");
-        Main.combination = Optimizer.optimizeDPS(Main.modFolder, Main.baseWeapon, Main.blacklist,
-        Main.whitelist, "BURST");
+        Main.combination = Optimizer.optimizeDPS(Main.modFolder,
+        Main.baseWeapon, Main.blacklist, Main.whitelist, "BURST");
 
         for (Mod mod : Main.combination) {
           System.out.println(mod.getName());
@@ -127,8 +146,8 @@ public class UI {
         validOption = true;
 
         System.out.println("\nBest Combination:\n");
-        Main.combination = Optimizer.optimizeDPS(Main.modFolder, Main.baseWeapon, Main.blacklist,
-        Main.whitelist, "SUSTAINED");
+        Main.combination = Optimizer.optimizeDPS(Main.modFolder,
+        Main.baseWeapon, Main.blacklist, Main.whitelist, "SUSTAINED");
 
         for (Mod mod : Main.combination) {
           System.out.println(mod.getName());
@@ -137,7 +156,9 @@ public class UI {
         break;
 
         case ("Modify Optimization Priorities"):
-        // TODO Implementation
+
+        // TODO: Implementation - Low Priority
+
         break;
 
         case ("Edit Blacklist"):
@@ -157,7 +178,10 @@ public class UI {
   }
 
   /**
+  * Prints a series of options based on a predefined array
   *
+  * TODO: This method implies that each option has a case within the loopMenu
+  * method, and will eventually depreciated when the class is improved
   */
 
   private static void printMenuOptions(String[] menuOptions) {
@@ -198,7 +222,7 @@ public class UI {
   }
 
   /**
-  *
+  * Prints all weapons contained within the file system
   */
 
   private static void printWeaponList(Vector<String> weaponNames) {
@@ -217,26 +241,9 @@ public class UI {
 
   }
 
-  private static String menuInquiry() {
-
-    System.out.print("\nPlease enter the title or number " +
-    "of the option you want to select:\nOption: ");
-
-    return Main.inputMain.nextLine();
-
-  }
-
-  private static String weaponInquiry() {
-
-    System.out.print("\nPlease enter the name or number of the weapon " +
-    "you want to select:\nWeapon: ");
-
-    return Main.inputMain.nextLine();
-
-  }
-
   /**
   * Process for altering the whitelist and blacklist
+  *
   * TODO: Currently serves exclusively to condense code and will eventually be
   * replaced with more practical and modular procedures
   */
@@ -253,6 +260,7 @@ public class UI {
 
     printModFolder(Main.modFolder);
 
+    // DEBUG: Contains the original error message prior to refactoring
     // if (!firstRun) {
     //   System.out.println("\nYour entry \"" + userInput + "\" could not be " +
     //   listName + "listed. Please try again.");
