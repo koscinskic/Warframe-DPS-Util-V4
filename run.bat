@@ -1,4 +1,4 @@
 cd classes
-java Menu
+java Main
 
 PAUSE

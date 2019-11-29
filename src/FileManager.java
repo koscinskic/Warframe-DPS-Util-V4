@@ -102,6 +102,40 @@ public class FileManager {
   }
 
   /**
+  * Restricts the user from establishing impossible filter parameters
+  */
+
+  public static boolean verifylists(boolean[] whitelist, boolean[] blacklist) {
+
+    // Variable concerning the end result of the verification process
+    boolean validlist = true;
+
+    // Variables concerning the quantity of mods within filter lists
+    int whitelistCount = 0;
+    int blacklistCount = 0;
+
+    for (int index = 0; index < whitelist.length; index++) {
+      if (whitelist[index] == true) {
+        whitelistCount++;
+      }
+      if (blacklist[index] == true) {
+        blacklistCount++;
+      }
+    }
+
+    if (whitelistCount > 8) {
+      validlist = false;
+    }
+
+    if (Main.modFolder.size() - blacklistCount < 8) {
+      validlist = false;
+    }
+
+    return validlist;
+
+  }
+
+  /**
   * Strips underscores and file extentions from text
   */
 

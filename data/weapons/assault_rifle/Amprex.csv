@@ -1,0 +1,25 @@
+﻿Basics,
+Name,Amprex
+Type,Assault Rifle
+,
+Critical Properties,
+Critical Chance,32
+Critical Multiplier,2.2
+,
+Ammo Consumption,
+Fire Rate,12
+Magazine Capacity,100
+Reload Speed,2.6
+Maximum Ammo Reserves,1400
+Ammo Type,Rifle
+,
+Status Properties,
+Status Chance,22
+,
+Physical Damage,
+Electricity,22
+,
+Extra Properties,
+Trigger,Continuous
+Accuracy,12.5
+Noise,Alarming
