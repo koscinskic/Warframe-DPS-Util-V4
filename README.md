@@ -10,7 +10,7 @@ A WIP version of my personal DPS optimizer for [Warframe](https://warframe.fando
 Run compile.bat and run.bat provided under the src folder
 
 #### For Linux and Mac Users:
-Open a terminal in the root directory of your local installation and run the
+Open a terminal in the root directory of your local repository or zip folder and run the
 following commands:
 * cd src
 * javac \*.java -d ../classes
@@ -34,7 +34,7 @@ Only a sample of weapons are provided to demonstrate the usage of the program. F
 
 * Locate and open Template.xlsx under the docs folder
 * Replace all of the fields marked with a "<>" symbol with their relevant statistics as provided on the Warframe Wiki
-* In specific regards to the "Type" field, enter the weapon's type as determined by the weapon's mod capabilities (e.g. Soma Prime is an assault rifle since it can equip primary, rifle, and assault rifle mods)
+* In specific regards to the "Type" field, enter the weapon's type as determined by the weapon's most specific mod capabilities (e.g. Soma Prime is an assault rifle since it can equip primary, rifle, and assault rifle mods)
 * Save the file as Weapon_Name (e.g. Soma_Prime) with the .csv file extension.
 * Place the file under its appropriate folder under weapons
 

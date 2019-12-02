@@ -111,17 +111,17 @@ public class UI {
           selectedOptionNum > 0) {
             userInput = Main.optionslist[selectedOptionNum - 1];
             validOption = true;
+            loopMenu(userInput);
           }
         } catch (NumberFormatException e) {
           for (String option : Main.optionslist) {
             if (option.equals(userInput)) {
               validOption = true;
+              loopMenu(userInput);
               break;
             }
           }
         }
-
-        loopMenu(userInput);
 
         break;
 
@@ -333,13 +333,20 @@ public class UI {
 
   public static void cls() {
     try {
-      new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-    } catch (IOException e) {
-      // Handle Exception Here
-    } catch (InterruptedException e2) {
-      // Handle Exception Here
+      final String os = System.getProperty("os.name");
+      if (os.contains("Windows")) {
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+      } else if (os.contains("Linux")) {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+      } else if (os.contains("Mac")) {
+        // TODO: Implementation
+      } else {
+        System.out.println("\nUnable to verify OS and clear the console.");
+      }
+    } catch (final Exception e) {
+      System.out.println("\nUnable to clear the console.");
     }
-
   }
 
 }
